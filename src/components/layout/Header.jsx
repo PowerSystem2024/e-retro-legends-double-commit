@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import Button from "../common/Button";
 
-const Header = ({ isAuthenticated, userRole, onLogout }) => {
+const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { getCartItemsCount } = useCart();
@@ -34,7 +34,12 @@ const Header = ({ isAuthenticated, userRole, onLogout }) => {
           <div className="flex gap-4 items-center">
             {isAuthenticated ? (
               <>
-                <span className="font-medium">👋 Hola, Usuario</span>
+                <img
+                  src={user.user_avatar || "/default-avatar.png"}
+                  alt="User Avatar"
+                  className="w-6 h-6 rounded-full"
+                />
+                <span className="font-medium">{user.user_name}</span>
                 {userRole === "seller" && (
                   <Link
                     to="/seller/dashboard"
@@ -82,9 +87,7 @@ const Header = ({ isAuthenticated, userRole, onLogout }) => {
             <span className="text-green-500">t</span>
             <span className="text-purple-500">r</span>
             <span className="text-orange-500">o</span>
-            <span className="ml-1 text-blue-400">
-              Legends
-            </span>
+            <span className="ml-1 text-blue-400">Legends</span>
           </h1>
         </Link>
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   return (
@@ -7,9 +7,9 @@ const ProductCard = ({ product }) => {
       <Link to={`/product/${product.id}`}>
         <div className="aspect-square bg-gray-200 flex items-center justify-center overflow-hidden">
           {product.image ? (
-            <img 
-              src={product.image} 
-              alt={product.name} 
+            <img
+              src={product.image}
+              alt={product.name}
               className="w-full h-full object-cover"
             />
           ) : (
@@ -32,12 +32,15 @@ const ProductCard = ({ product }) => {
           </div>
           {product.shipping && (
             <p className="text-xs text-gray-600">
-              {product.shipping === 'free' ? '🚚 Envío gratis' : `Envío: $${product.shipping}`}
+              {product.shipping === "free"
+                ? "🚚 Envío gratis"
+                : `Envío: $${product.shipping}`}
             </p>
           )}
           {product.condition && (
             <p className="text-xs text-gray-600 mt-1">
-              Condición: <span className="font-semibold">{product.condition}</span>
+              Condición:{" "}
+              <span className="font-semibold">{product.condition}</span>
             </p>
           )}
         </div>
@@ -47,4 +50,3 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
-

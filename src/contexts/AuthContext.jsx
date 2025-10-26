@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null); // 'buyer' or 'seller'
+  const [userRole, setUserRole] = useState("seller"); // 'buyer' or 'seller'
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
@@ -22,8 +22,13 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setUser(data.user);
+      setIsAuthenticated(true);
+      setUserRole(data.user.role);
     } catch (err) {
       setError(err);
+      setIsAuthenticated(false);
+      setUser(null);
+      setUserRole(null);
     }
   }, []);
 
@@ -34,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const login = async ({ email, password }) => {
     try {
       const response = await fetch(
-        "https://e-retro-back.vercel.app/api/profile",
+        "https://e-retro-back.vercel.app/api/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

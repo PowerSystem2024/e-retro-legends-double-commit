@@ -3,6 +3,7 @@
 Grupo: Double Commit
 
 Integrantes:
+
 - Cecilia Olejarczik
 - Franco Morales
 - Gabriel Calcagni
@@ -27,7 +28,7 @@ src/
 │   ├── Buyer/ (Home, ProductDetail, Cart, Checkout, OrderHistory)
 │   ├── Seller/ (Dashboard, ProductManagement, OrderManagement)
 │   └── Public/ (About, Contact, etc.)
-├── services/ (Interacción con APIs, por ejemplo, el backend del usuario)
+├── services/ (Interacción con APIs)
 ├── styles/ (Configuración de Tailwind CSS, estilos globales)
 ├── utils/ (Funciones de utilidad, helpers)
 ├── App.js (Componente principal)
@@ -40,11 +41,11 @@ src/
 
 Se utilizará una aproximación basada en componentes con Tailwind CSS para un desarrollo rápido y consistente. Los componentes se dividirán en:
 
-*   **Atómicos:** Elementos básicos como botones, campos de entrada, tarjetas de producto.
-*   **Moléculas:** Combinación de atómicos, como un formulario de login o una barra de búsqueda.
-*   **Organismos:** Secciones completas de la interfaz, como el header o el footer.
-*   **Plantillas:** Diseños de página sin contenido real, solo la estructura.
-*   **Páginas:** Instancias de plantillas con contenido real.
+- **Atómicos:** Elementos básicos como botones, campos de entrada, tarjetas de producto.
+- **Moléculas:** Combinación de atómicos, como un formulario de login o una barra de búsqueda.
+- **Organismos:** Secciones completas de la interfaz, como el header o el footer.
+- **Plantillas:** Diseños de página sin contenido real, solo la estructura.
+- **Páginas:** Instancias de plantillas con contenido real.
 
 ## 3. Enrutamiento (React Router)
 
@@ -58,24 +59,25 @@ Para la gestión de estado se considerará el uso de React Context API para esta
 
 Para lograr el estilo de eBay de los 2000s, se investigarán las características visuales de esa época:
 
-*   **Paleta de colores:** Colores primarios, tonos grises, bordes definidos.
-*   **Tipografía:** Fuentes sans-serif comunes de la época (Arial, Verdana, Tahoma).
-*   **Bordes y Sombras:** Bordes pronunciados, sombras sutiles o difuminadas.
-*   **Diseño:** Layouts basados en tablas (aunque se implementarán con flexbox/grid para modernidad), elementos con gradientes sutiles, iconos pixelados.
+- **Paleta de colores:** Colores primarios, tonos grises, bordes definidos.
+- **Tipografía:** Fuentes sans-serif comunes de la época (Arial, Verdana, Tahoma).
+- **Bordes y Sombras:** Bordes pronunciados, sombras sutiles o difuminadas.
+- **Diseño:** Layouts basados en tablas (aunque se implementarán con flexbox/grid para modernidad), elementos con gradientes sutiles, iconos pixelados.
 
 ## 6. Páginas Principales
 
-*   **Públicas:** Home, Listado de Productos, Detalle de Producto, Login, Register, Acerca de, Contacto.
-*   **Comprador:** Carrito de Compras, Finalizar Compra (Checkout), Historial de Pedidos, Perfil.
-*   **Vendedor:** Dashboard, Gestión de Productos (Añadir, Editar, Eliminar), Gestión de Pedidos, Perfil de Vendedor.
+- **Públicas:** Home, Listado de Productos, Detalle de Producto, Login, Register, Acerca de, Contacto.
+- **Comprador:** Carrito de Compras, Finalizar Compra (Checkout), Historial de Pedidos, Perfil.
+- **Vendedor:** Dashboard, Gestión de Productos (Añadir, Editar, Eliminar), Gestión de Pedidos, Perfil de Vendedor.
 
 ## 7. Tecnologías
 
-*   **React:** Biblioteca principal para la interfaz de usuario.
-*   **Tailwind CSS:** Framework CSS utility-first para estilos.
-*   **React Router:** Para la navegación entre páginas.
-*   **Context API:** Para gestión de estado global.
-*   **Axios/Fetch:** Para la comunicación con el backend (cuando se conecte).
+- **React:** Biblioteca principal para la interfaz de usuario.
+- **Tailwind CSS:** Framework CSS utility-first para estilos.
+- **React Router:** Para la navegación entre páginas.
+- **Context API:** Para gestión de estado global.
+- **Axios/Fetch:** Para la comunicación con el backend (cuando se conecte).
 
 Este plan servirá como guía para la implementación de la aplicación 'e-Retro Legends'.
+
 # e-retro-legends-double-commit

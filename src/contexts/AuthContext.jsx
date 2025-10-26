@@ -5,8 +5,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState("seller"); // 'buyer' or 'seller'
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(""); // 'buyer' or 'seller' <- en la base ya se crea por default comprador
   const [error, setError] = useState("");
 
   const refreshUser = useCallback(async () => {
@@ -20,7 +20,10 @@ export const AuthProvider = ({ children }) => {
         }
       );
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      if (!response.ok) {
+        setIsAuthenticated(false)
+        throw new Error(data.message)
+      };
       setUser(data.user);
       setIsAuthenticated(true);
       setUserRole(data.user.role);
@@ -50,16 +53,10 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setUser(data.user);
+      await refreshUser()
     } catch (err) {
       setError(err);
     }
-  };
-
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-    setUserRole(null);
-    localStorage.removeItem("user");
   };
 
   const register = async ({ name, email, password }) => {
@@ -79,6 +76,25 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       setError(err);
       setUser(null);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const response = await fetch(
+        "https://e-retro-back.vercel.app/api/logout",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+      setUser(null);
+      await refreshUser()
+    } catch (err) {
+      setError(err);
     }
   };
 

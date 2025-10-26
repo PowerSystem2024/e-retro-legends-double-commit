@@ -34,12 +34,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
           <div className="flex gap-4 items-center">
             {isAuthenticated ? (
               <>
-                <img
-                  src={user.user_avatar || "/default-avatar.png"}
-                  alt="User Avatar"
-                  className="w-6 h-6 rounded-full"
-                />
-                <span className="font-medium">{user.user_name}</span>
+                <span className="font-medium">Hola! {user.user_name || ""}</span>
                 {userRole === "seller" && (
                   <Link
                     to="/seller/dashboard"

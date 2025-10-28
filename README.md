@@ -4,7 +4,7 @@ Grupo: Double Commit
 
 Integrantes:
 
-- Cecilia Olejarczik
+- Cecilia Olejarczyk
 - Franco Morales
 - Gabriel Calcagni
 

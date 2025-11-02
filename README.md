@@ -76,4 +76,3 @@ La estructura del proyecto está organizada en módulos para facilitar el manten
 ## Consideraciones Adicionales
 
 *   La integración con Mercado Pago requiere la configuración de una cuenta de desarrollador y la obtención de las credenciales necesarias.
-*   Se recomienda utilizar un sistema de control de versiones (como Git) para gestionar el código fuente.

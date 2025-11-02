@@ -4,4 +4,5 @@ import { PaymentController } from "../controllers/payment.controller";
 export const paymentRoute = Router()
 const paymentController = new PaymentController()
 
-paymentRoute.post("/payment", paymentController.createPreferenceMP)
+paymentRoute.post("/payments/create", paymentController.createPreferenceMP)
+paymentRoute.post("/payments/webhook", paymentController.webhook)

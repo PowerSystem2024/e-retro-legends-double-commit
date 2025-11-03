@@ -6,13 +6,13 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [userRole, setUserRole] = useState(""); // 'buyer' or 'seller' <- en la base ya se crea por default comprador
+  const [userRole, setUserRole] = useState(""); // 'buyer' or 'seller' <- en la base ya se crea por default comprador o sea 'buyer'
   const [error, setError] = useState("");
 
   const refreshUser = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://e-retro-back.vercel.app/api/profile",
+        "https://e-retro-back.vercel.app/api/user/profile",
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

@@ -4,6 +4,7 @@ import { authRouter } from "./auth.routes.js";
 import { userRouter } from "./user.routes.js";
 import { paymentRouter } from "./payment.routes.js";
 
+
 export const appRouter = Router()
 
 appRouter.use("/user", authRouter)

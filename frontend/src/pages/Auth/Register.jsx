@@ -7,6 +7,7 @@ import Button from "../../components/common/Button";
 export const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
+    lastName: "",
     email: "",
     password: "",
     role: "buyer", // Valor por defecto

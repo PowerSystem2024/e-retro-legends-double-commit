@@ -11,3 +11,4 @@ appRouter.use("/user", authRouter)
 appRouter.use("/user", userRouter)
 appRouter.use("/products", productsRouter)
 appRouter.use("/payments", paymentRouter)
+

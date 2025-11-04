@@ -1,9 +1,10 @@
 {
   "name": "e-retro-server",
   "type": "module",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch src/app.js"
+    "dev": "node --watch src/index.js"
   },
   "dependencies": {
     "express": "5.1.0",

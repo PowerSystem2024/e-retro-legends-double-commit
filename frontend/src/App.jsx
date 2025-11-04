@@ -11,9 +11,9 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 
 // Páginas públicas
-import Home from "./pages/Public/Home";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
+import { Home } from "./pages/Public/Home";
+import { Login } from "./pages/Auth/Login";
+import { Register } from "./pages/Auth/Register";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";

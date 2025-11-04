@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 
-const Login = () => {
+export const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const { login } = useAuth();
@@ -121,5 +121,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

@@ -74,10 +74,9 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Logo */}
-        <Link to="/" className="flex-shrink-0">
+        <Link to="/" className="shrink-0">
           <h1 className="text-4xl font-extrabold tracking-tight flex items-center">
-            <span className="text-red-500">e</span>
-            <span className="text-blue-500">-R</span>
+            <span className="text-blue-500">R</span>
             <span className="text-yellow-400">e</span>
             <span className="text-green-500">t</span>
             <span className="text-purple-500">r</span>

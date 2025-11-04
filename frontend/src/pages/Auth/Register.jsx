@@ -4,11 +4,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 
-const Register = () => {
+export const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    role: "buyer", // Valor por defecto
   });
   const [errors, setErrors] = useState({});
   const { register } = useAuth();
@@ -231,5 +232,3 @@ const Register = () => {
     </div>
   );
 };
-
-export default Register;

@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/common/ProductCard";
 import Button from "../../components/common/Button";
 
 export const Home = () => {
+  const navigate = useNavigate()
   const featuredProducts = [
     {
       id: 1,
@@ -84,7 +85,7 @@ export const Home = () => {
       {/* Hero */}
       <section className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col items-center text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-3">
+          <h2 className="text-4xl font-extrabold text-gray-900 mb-3">
             Bienvenido a{" "}
             <span className="text-blue-600 flex items-center gap-2">
               <img
@@ -105,6 +106,7 @@ export const Home = () => {
               Explorar Productos
             </Button>
             <Button
+              onClick={() => navigate("/login")}
               variant="outline"
               size="large"
               className="px-6 py-3 border-blue-600 text-blue-600 hover:bg-blue-50"

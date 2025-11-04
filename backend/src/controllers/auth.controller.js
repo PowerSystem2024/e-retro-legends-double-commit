@@ -1,6 +1,6 @@
 import { compare, hash } from "bcrypt";
 import { CREATE_USER, GET_USER_BY_EMAIL, GET_USER_BY_ID } from "./constants.js";
-import { createAccessToken } from "../lib/jwt.js";
+import { createAccessToken } from "../utils/jwt.js";
 import { EmailController } from "./email.controller.js";
 import md5 from "md5";
 
@@ -34,7 +34,7 @@ export class AuthController {
 
       const token = await createAccessToken({ id: user.user_id });
 
-      res.cookie("token", token, {
+      res.cookie("e_retro_legends_token", token, {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",
@@ -51,9 +51,9 @@ export class AuthController {
 
   signUp = async (req, res) => {
     try {
-      const { name, email, password, ip, city, state, country } = req.body;
-
-      if (!name || !email || !password)
+      const { name, lastName, email, password, role, ip, city, state, country } = req.body;
+       
+      if (!name || !lastName || !email || !password)
         return res.status(400).json({ message: "Campos vacíos" });
 
       const userExist = await this.authDb.query(GET_USER_BY_EMAIL, [email]);
@@ -71,9 +71,11 @@ export class AuthController {
 
       const result = await this.authDb.query(CREATE_USER, [
         name,
+        lastName,
         email,
         hashedPassword,
         gravatar,
+        role,
         ip,
         city,
         state,
@@ -83,7 +85,7 @@ export class AuthController {
       const newUser = this.getFirstRow(result);
       const token = await createAccessToken({ id: newUser.user_id });
 
-      res.cookie("token", token, {
+      res.cookie("e_retro_legends_token", token, {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",
@@ -109,7 +111,7 @@ export class AuthController {
       const result = await this.authDb.query(GET_USER_BY_ID, [id]);
       const user = this.getFirstRow(result);
 
-      res.clearCookie("token", {
+      res.clearCookie("e_retro_legends_token", {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",

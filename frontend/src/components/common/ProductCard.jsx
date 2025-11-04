@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
+export const ProductCard = ({ product }) => {
   return (
     <div className="border-2 border-gray-400 bg-white hover:shadow-lg transition-shadow duration-200">
       <Link to={`/product/${product.id}`}>
@@ -48,5 +48,3 @@ const ProductCard = ({ product }) => {
     </div>
   );
 };
-
-export default ProductCard;

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { PaymentController } from "../controllers/payment.controller";
-import { PaymentModel } from "../models/product.models";
-import { serverNeonDB } from "../config/neon/neonDbConfig";
+import { PaymentController } from "../controllers/payment.controller.js";
+import { PaymentModel } from "../models/product.models.js";
+import { serverNeonDB } from "../config/neon/neonDbConfig.js";
 
-export const paymentRoute = Router()
+export const paymentRouter = Router()
 
 const paymentDb = new PaymentModel(serverNeonDB)
 const paymentController = new PaymentController({ paymentDb })
 
-paymentRoute.post("/payments/create", paymentController.createPreferenceMP)
-paymentRoute.post("/payments/webhook", paymentController.webhook)
+paymentRouter.post("/create", paymentController.createPreferenceMP)
+paymentRouter.post("/webhook", paymentController.webhook)

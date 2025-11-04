@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { AuthController } from "../controllers/auth.controller";
-import { serverNeonDB } from "../config/neon/neonDbConfig";
-import { isAuth } from "../middlewares/isAuth";
+import { AuthController } from "../controllers/auth.controller.js";
+import { serverNeonDB } from "../config/neon/neonDbConfig.js";
+import { isAuth } from "../middlewares/isAuth.js";
 
 export const authRouter = Router();
 const authController = new AuthController({ authDb: serverNeonDB });

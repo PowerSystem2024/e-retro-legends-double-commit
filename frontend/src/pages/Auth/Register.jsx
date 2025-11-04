@@ -82,7 +82,7 @@ export const Register = () => {
 
     navigate("/");
   };
-console.log(formData);
+
   return (
     <div className="min-h-screen bg-gray-100 py-12">
       <div className="max-w-md mx-auto px-4">

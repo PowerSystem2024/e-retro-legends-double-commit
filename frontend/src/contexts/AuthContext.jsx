@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const refreshUser = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://retroleyendsback.vercel.app/api/user/profile",
+        "https://retrolegendsback.vercel.app/api/user/profile",
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

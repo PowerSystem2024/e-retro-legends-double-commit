@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   const login = async ({ email, password }) => {
     try {
       const response = await fetch(
-        "https://retroleyendsback.vercel.app/api/user/login",
+        "https://retrolegendsback.vercel.app/api/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -59,15 +59,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async ({ name, email, password }) => {
+  const register = async ({ name, lastName, email, password, role }) => {
     try {
       const response = await fetch(
-        "https://e-retro-back.vercel.app/api/signup",
+        "https://retrolegendsback.vercel.app/api/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ name, lastName, email, password, role }),
         }
       );
       const data = await response.json();
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const response = await fetch(
-        "https://retroleyendsback.vercel.app/api/logout",
+        "https://retrolegendsback.vercel.app/api/logout",
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

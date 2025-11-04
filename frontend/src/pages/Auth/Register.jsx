@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 
+
 export const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -34,8 +35,8 @@ export const Register = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "El nombre es requerido";
+    if (!formData.name.trim()) {
+      newErrors.name = "El nombre es requerido";
     }
 
     if (!formData.lastName.trim()) {
@@ -81,7 +82,7 @@ export const Register = () => {
 
     navigate("/");
   };
-
+console.log(formData);
   return (
     <div className="min-h-screen bg-gray-100 py-12">
       <div className="max-w-md mx-auto px-4">
@@ -101,12 +102,12 @@ export const Register = () => {
             <div className="grid grid-cols-2 gap-4">
               <Input
                 type="text"
-                name="firstName"
+                name="name"
                 label="Nombre"
                 placeholder="Jhon"
-                value={formData.firstName}
+                value={formData.name}
                 onChange={handleChange}
-                error={errors.firstName}
+                error={errors.name}
                 required
               />
 
@@ -208,6 +209,7 @@ export const Register = () => {
             </div>
 
             <Button
+              onClick={() => register(formData)}
               type="submit"
               variant="primary"
               size="large"

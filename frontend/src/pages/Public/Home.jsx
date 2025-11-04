@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ProductCard from "../../components/common/ProductCard";
 import Button from "../../components/common/Button";
 
-const Home = () => {
+export const Home = () => {
   const featuredProducts = [
     {
       id: 1,
@@ -86,7 +86,15 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col items-center text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-3">
             Bienvenido a{" "}
-            <span className="text-blue-600">e-Retro Legends</span> 🏆
+            <span className="text-blue-600 flex items-center gap-2">
+              <img
+                src="/assets/E-logo.gif"
+                width={45}
+                height={45}
+                alt="E logo gif"
+              />
+              Retro Legends
+            </span>
           </h2>
           <p className="text-lg text-gray-600 mb-6">
             Reviví la nostalgia deportiva con artículos auténticos de las épocas
@@ -180,5 +188,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

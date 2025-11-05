@@ -11,6 +11,7 @@ export class ProductController {
     try {
       const result = await this.productsDB.query(GET_ALL_PRODUCTS);
       const products = result?.rows || result;
+      console.log("Productos obtenidos:", products);
       res.status(200).json(products);
     } catch (error) {
       console.error("Error al obtener productos:", error);

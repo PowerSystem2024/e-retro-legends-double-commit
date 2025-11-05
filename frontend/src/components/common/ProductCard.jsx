@@ -17,9 +17,9 @@ export const ProductCard = ({ product, onAddToCart }) => {
     <div className="border-2 border-gray-400 bg-white hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-between">
       <Link to={`/product/${product.id}`} className="flex-1 block">
         <div className="w-full aspect-square bg-gray-200 flex items-center justify-center overflow-hidden">
-          {product.image ? (
+          {product.images ? (
             <img
-              src={product.image}
+              src={product.images[0]}
               alt={product.name}
               className="w-full h-full object-cover"
             />
@@ -33,7 +33,7 @@ export const ProductCard = ({ product, onAddToCart }) => {
           </h3>
           <div className="flex items-baseline gap-2 mb-2">
             <span className="text-lg font-bold text-green-700">
-              ${product.price.toFixed(2)}
+              ${product.price}
             </span>
             {product.originalPrice && (
               <span className="text-sm text-gray-500 line-through">

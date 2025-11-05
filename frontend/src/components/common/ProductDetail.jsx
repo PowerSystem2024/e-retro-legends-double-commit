@@ -2,39 +2,52 @@ import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import Button from '../../components/common/Button';
+import { useProducts } from '../../contexts/ProductContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { getProductById, loading } = useProducts();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
   // Datos de ejemplo - en producción vendrían del backend
-  const products = {
-    1: {
-      id: 1,
-      name: "Camiseta Retro Brasil 1970 - Pelé #10",
-      price: 38900.99,
-      originalPrice: 45000.00,
-      images: [null, null, null],
-      description: "Camiseta oficial de la selección brasileña de 1970, año del tricampeonato mundial. Réplica auténtica con el número 10 de Pelé en la espalda.",
-      condition: "Nuevo",
-      shipping: "free",
-      category: "Fútbol",
-      seller: "Retro Sports Collection",
-      stock: 5,
-      specifications: {
-        "Talla": "M, L, XL",
-        "Material": "Algodón 100%",
-        "Color": "Amarillo/Verde",
-        "Año": "1970"
-      }
-    },
-    // ... resto de productos
-  };
+  // const products = {
+  //   1: {
+  //     id: 1,
+  //     name: "Camiseta Retro Brasil 1970 - Pelé #10",
+  //     price: 38900.99,
+  //     originalPrice: 45000.00,
+  //     images: [null, null, null],
+  //     description: "Camiseta oficial de la selección brasileña de 1970, año del tricampeonato mundial. Réplica auténtica con el número 10 de Pelé en la espalda.",
+  //     condition: "Nuevo",
+  //     shipping: "free",
+  //     category: "Fútbol",
+  //     seller: "Retro Sports Collection",
+  //     stock: 5,
+  //     specifications: {
+  //       "Talla": "M, L, XL",
+  //       "Material": "Algodón 100%",
+  //       "Color": "Amarillo/Verde",
+  //       "Año": "1970"
+  //     }
+  //   },
+  //   // ... resto de productos
+  // };
 
-  const product = products[id];
+  // const product = products[id]; // Usar datos de ejemplo
+  const product = getProductById(id); // Usar contexto de productos
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 py-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="text-xl">Cargando producto...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -75,9 +88,9 @@ const ProductDetail = () => {
           {/* Galería de imágenes */}
           <div className="space-y-4">
             <div className="w-full aspect-square bg-gray-200 border-2 border-gray-400 flex items-center justify-center">
-              {product.images[selectedImage] ? (
+              {product.images ? (
                 <img 
-                  src={product.images[selectedImage]} 
+                  src={product.images} 
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />
@@ -86,7 +99,7 @@ const ProductDetail = () => {
               )}
             </div>
             
-            {product.images.length > 1 && (
+            {Array.isArray(product.images) && product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {product.images.map((img, index) => (
                   <button
@@ -121,7 +134,7 @@ const ProductDetail = () => {
             <div className="bg-white border-2 border-gray-400 p-6">
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="text-4xl font-bold text-green-700">
-                  ${product.price.toFixed(2)}
+                  ${product.price}
                 </span>
                 {product.originalPrice && (
                   <>
@@ -200,6 +213,7 @@ const ProductDetail = () => {
           <p className="text-gray-700 mb-6">{product.description}</p>
           
           <h3 className="text-xl font-bold text-gray-900 mb-4">Especificaciones</h3>
+          {product.specifications ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {Object.entries(product.specifications).map(([key, value]) => (
               <div key={key} className="flex border-b border-gray-200 py-2">
@@ -207,7 +221,10 @@ const ProductDetail = () => {
                 <span className="text-gray-600 w-2/3">{value}</span>
               </div>
             ))}
-          </div>
+            </div>
+            ) : (
+              <p className="text-gray-600">Este producto no tiene especificaciones registradas.</p>
+            )}
         </div>
       </div>
     </div>

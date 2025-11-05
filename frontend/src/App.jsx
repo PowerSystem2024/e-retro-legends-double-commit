@@ -16,6 +16,8 @@ import { Login } from "./pages/Auth/Login";
 import { Register } from "./pages/Auth/Register";
 import ProductDetail from "./components/common/ProductDetail";
 import { ProductProvider } from "./contexts/ProductContext";
+import Products from "./pages/Public/Products";
+import { AllProducts } from "./pages/Public/Products";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
@@ -76,6 +78,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/category/:categorySlug" element={<AllProducts />} />
 
               {/* Rutas Comprador */}
               <Route path="/cart" element={<Cart />} />

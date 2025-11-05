@@ -14,6 +14,7 @@ import Footer from "./components/layout/Footer";
 import { Home } from "./pages/Public/Home";
 import { Login } from "./pages/Auth/Login";
 import { Register } from "./pages/Auth/Register";
+import ProductDetail  from "./components/common/ProductDetail";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
@@ -72,6 +73,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
 
               {/* Rutas Comprador */}
               <Route path="/cart" element={<Cart />} />

@@ -132,7 +132,7 @@ const Cart = () => {
                         ${(item.price * item.quantity).toFixed(2)}
                       </p>
                       <p className="text-xs text-gray-600">
-                        ${item.price.toFixed(2)} c/u
+                        ${item.price} c/u
                       </p>
                     </div>
                   </div>

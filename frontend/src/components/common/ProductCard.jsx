@@ -33,7 +33,7 @@ export const ProductCard = ({ product, onAddToCart }) => {
           </h3>
           <div className="flex items-baseline gap-2 mb-2">
             <span className="text-lg font-bold text-green-700">
-              ${product.price.toFixed(2)}
+              ${product.price}
             </span>
             {product.originalPrice && (
               <span className="text-sm text-gray-500 line-through">

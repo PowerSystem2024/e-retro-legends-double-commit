@@ -14,7 +14,8 @@ import Footer from "./components/layout/Footer";
 import { Home } from "./pages/Public/Home";
 import { Login } from "./pages/Auth/Login";
 import { Register } from "./pages/Auth/Register";
-import ProductDetail  from "./components/common/ProductDetail";
+import ProductDetail from "./components/common/ProductDetail";
+import { ProductProvider } from "./contexts/ProductContext";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
@@ -67,6 +68,7 @@ function App() {
     <Router>
       <AuthProvider>
         <CartProvider>
+          <ProductProvider>
           <Layout>
             <Routes>
               {/* Rutas Públicas */}
@@ -139,7 +141,8 @@ function App() {
               {/* Cachear todos - redirección al inicio */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </Layout>
+            </Layout>
+          </ProductProvider>
         </CartProvider>
       </AuthProvider>
     </Router>

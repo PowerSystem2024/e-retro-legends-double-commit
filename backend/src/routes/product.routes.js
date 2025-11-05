@@ -6,7 +6,7 @@ import { pgLocalDB } from "../config/dbConfig.js"; // Importa la configuración 
 export const productsRouter = Router();
 
 // const productController = new ProductController({ productsDb: serverNeonDB });
-const productController = new ProductController({ productsDb: pgLocalDB });
+const productController = new ProductController({ productsDB: pgLocalDB });
 
 
 productsRouter.get("/products", productController.getAllProducts);

@@ -28,11 +28,11 @@ export const Home = () => {
     
 
   const categories = [
-    { name: "Fútbol", icon: "⚽", link: "/category/futbol" },
-    { name: "Basketball", icon: "🏀", link: "/category/basketball" },
-    { name: "Tenis", icon: "🎾", link: "/category/tenis" },
-    { name: "Baseball", icon: "⚾", link: "/category/baseball" },
-    { name: "Otros", icon: "🏆", link: "/category/otros" },
+    { name: "Fútbol", icon: "⚽", link: "products/category/futbol" },
+    { name: "Basketball", icon: "🏀", link: "products/category/basketball" },
+    { name: "Tenis", icon: "🎾", link: "products/category/tenis" },
+    { name: "Baseball", icon: "⚾", link: "products/category/baseball" },
+    { name: "Otros", icon: "🏆", link: "products/category/otros" },
   ];
 
   return (
@@ -57,7 +57,7 @@ export const Home = () => {
             doradas.
           </p>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Button variant="primary" size="large" className="px-6 py-3">
+            <Button variant="primary" size="large" className="px-6 py-3" onClick={() => navigate("/products")}>
               Explorar Productos
             </Button>
             <Button

@@ -64,7 +64,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    alert(`${quantity} ${quantity === 1 ? 'unidad' : 'unidades'} agregada(s) al carrito`);
+    // alert(`${quantity} ${quantity === 1 ? 'unidad' : 'unidades'} agregada(s) al carrito`);
   };
 
   const handleBuyNow = () => {
@@ -210,11 +210,12 @@ const ProductDetail = () => {
         {/* Descripción */}
         <div className="bg-white border-2 border-gray-400 p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Descripción</h3>
-          <p className="text-gray-700 mb-6">{product.description}</p>
-          
+          <p className="text-gray-700 mb-6">{product.description}</p> 
+
+          {/* Especificaciones */}
           <h3 className="text-xl font-bold text-gray-900 mb-4">Especificaciones</h3>
           {product.specifications ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {Object.entries(product.specifications).map(([key, value]) => (
               <div key={key} className="flex border-b border-gray-200 py-2">
                 <span className="font-semibold text-gray-700 w-1/3">{key}:</span>
@@ -224,7 +225,11 @@ const ProductDetail = () => {
             </div>
             ) : (
               <p className="text-gray-600">Este producto no tiene especificaciones registradas.</p>
-            )}
+          )}
+          
+          {/* Categoría */}
+          <h3 className="text-xl font-bold text-gray-900 mb-4 mt-4">Categoria del Producto</h3>
+          <p className="text-gray-600 mb-6">{product.category}</p>
         </div>
       </div>
     </div>

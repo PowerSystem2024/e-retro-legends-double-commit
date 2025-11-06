@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { ProductController } from "../controllers/product.controller.js";
-// import { serverNeonDB } from "../config/neon/neonDbConfig.js";
-import { pgLocalDB } from "../config/dbConfig.js"; // Importa la configuración de la base de datos local
+import { serverNeonDB } from "../config/neon/neonDbConfig.js";
+//import { pgLocalDB } from "../config/dbConfig.js"; // Importa la configuración de la base de datos local
 
 export const productsRouter = Router();
 
 // const productController = new ProductController({ productsDb: serverNeonDB });
-const productController = new ProductController({ productsDB: pgLocalDB });
+const productController = new ProductController({ productsDB: serverNeonDB });
 
 
 productsRouter.get("/products", productController.getAllProducts);

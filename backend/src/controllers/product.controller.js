@@ -12,12 +12,12 @@ export class ProductController {
       const result = await this.productsDB.query(GET_ALL_PRODUCTS);
       const products = result?.rows || result;
       
-      res.status(200).json(products);
+      if (products.length === 0) return res.json({ message: "No hay productos en la base de datos." })
+
+      return res.status(200).json(products);
     } catch (error) {
       console.error("Error al obtener productos:", error);
-      res
-        .status(500)
-        .json({ message: "Error en el servidor: " + error.message });
+      return res.status(500).json({ message: "Error en el servidor: " + error.message });
     }
   };
 

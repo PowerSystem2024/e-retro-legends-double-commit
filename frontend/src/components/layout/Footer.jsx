@@ -42,9 +42,9 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-sm mb-3 text-blue-900"><Link to="/legal">Legal</Link></h3>
             <ul className="text-xs space-y-2">
-              <li><Link to="/privacy" className="text-blue-600 hover:underline">Política de privacidad</Link></li>
-              <li><Link to="/terms" className="text-blue-600 hover:underline">Términos de uso</Link></li>
-              <li><Link to="/cookies" className="text-blue-600 hover:underline">Política de cookies</Link></li>
+              <li><Link to="/legal#privacy" className="text-blue-600 hover:underline">Política de privacidad</Link></li>
+              <li><Link to="/legal#terms" className="text-blue-600 hover:underline">Términos de uso</Link></li>
+              <li><Link to="/legal#cookies" className="text-blue-600 hover:underline">Política de cookies</Link></li>
             </ul>
           </div>
         </div>

@@ -27,7 +27,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             <Link to="/about" className="hover:underline">
               Acerca de
             </Link>
-            <Link to="/contact" className="hover:underline">
+            <Link to="/help#contact" className="hover:underline">
               Contacto
             </Link>
           </div>

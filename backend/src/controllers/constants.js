@@ -16,7 +16,7 @@ const GET_PRODUCT_BY_ID = "SELECT * FROM e_retro_products WHERE id = $1;";
 const CREATE_PRODUCT =
   "INSERT INTO e_retro_products (name, price, stock, condition) VALUES ($1, $2, $3, $4) RETURNING *;";
 const UPDATE_PRODUCT =
-  "UPDATE e_retro_products SET name = $1, price = $2, stock = $3 WHERE id = $4 RETURNING *;";
+  "UPDATE e_retro_products SET name = $1, price = $2, stock = $3, image = $4 WHERE id = $4 RETURNING *;";
 const DELETE_PRODUCT =
   "DELETE FROM e_retro_products WHERE id = $1 RETURNING *;";
 

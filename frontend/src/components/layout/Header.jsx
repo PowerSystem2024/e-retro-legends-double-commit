@@ -33,8 +33,9 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
           </div>
           <div className="flex gap-4 items-center">
             {isAuthenticated ? (
-              <>
-                <span className="font-medium">Hola! {user.user_name || ""}</span>
+              <div className="flex items-center gap-1.5">
+                <img src={user.avatar} width={20} height={20} />
+                <span className="font-medium">Hola! {user.name || ""} {user.lastname}</span>
                 {userRole === "seller" && (
                   <Link
                     to="/seller/dashboard"
@@ -51,7 +52,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
                 <button onClick={onLogout} className="hover:text-blue-600">
                   Salir
                 </button>
-              </>
+              </div>
             ) : (
               <p className="flex items-center gap-2">
                 ¡Hola!

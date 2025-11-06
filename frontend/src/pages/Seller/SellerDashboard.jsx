@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/common/Button';
 
-const SellerDashboard = () => {
+const SellerDashboard = ({ user }) => {
   // Datos de ejemplo - en producción vendrían del backend
   const stats = {
     totalSales: 5420.50,
@@ -30,7 +30,7 @@ const SellerDashboard = () => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-blue-900">Panel del Vendedor</h1>
-            <p className="text-gray-600">Bienvenido de vuelta, Vendedor</p>
+            <p className="text-gray-600">Bienvenido de vuelta, {user.name}</p>
           </div>
           <Link to="/seller/products/new">
             <Button variant="success" size="large">

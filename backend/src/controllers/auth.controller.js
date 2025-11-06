@@ -28,7 +28,7 @@ export class AuthController {
           .status(404)
           .json({ message: "El correo electrónico no está registrado", email });
 
-      const validated = await compare(password, user.user_password);
+      const validated = await compare(password, user.password);
       if (!validated)
         return res.status(403).json({ message: "La contraseña es incorrecta" });
 

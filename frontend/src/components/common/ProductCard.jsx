@@ -2,15 +2,13 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 
-export const ProductCard = ({ product, onAddToCart }) => {
+export const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
   const handleAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // Si el padre pasa onAddToCart, se usa; si no, usamos addToCart del contexto
-    const fn = typeof onAddToCart === "function" ? onAddToCart : addToCart;
-    fn(product);
+    addToCart()
   };
 
   return (
@@ -59,7 +57,7 @@ export const ProductCard = ({ product, onAddToCart }) => {
       <div className="p-3 pt-0">
         <button
           onClick={handleAdd}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-3 rounded cursor-pointer transition"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-3 cursor-pointer transition"
           aria-label={`Agregar " ${product.name} " al carrito`}
           title={`Agregar "${product.name}" al carrito`}
           >

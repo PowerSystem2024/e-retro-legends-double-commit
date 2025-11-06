@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useCallback } from "react";
+import { getLocation } from "../utils/getLocation";
 
 const AuthContext = createContext();
 
@@ -61,13 +62,14 @@ export const AuthProvider = ({ children }) => {
 
   const register = async ({ name, lastName, email, password, role }) => {
     try {
+      const { ip, city, state, country } = getLocation()
       const response = await fetch(
         "https://retrolegendsback.vercel.app/api/user/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ name, lastName, email, password, role }),
+          body: JSON.stringify({ name, lastName, email, password, role, ip, city, state, country }),
         }
       );
       const data = await response.json();
@@ -117,5 +119,6 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
-  return context;
+  const { isAuthenticated, userRole, user, error, login, logout, register } = context
+  return { isAuthenticated, userRole, user, error, login, logout, register } ;
 };

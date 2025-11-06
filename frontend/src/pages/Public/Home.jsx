@@ -28,11 +28,11 @@ export const Home = () => {
     
 
   const categories = [
-    { name: "Fútbol", icon: "⚽", link: "products/category/futbol" },
-    { name: "Basketball", icon: "🏀", link: "products/category/basketball" },
-    { name: "Tenis", icon: "🎾", link: "products/category/tenis" },
-    { name: "Baseball", icon: "⚾", link: "products/category/baseball" },
-    { name: "Otros", icon: "🏆", link: "products/category/otros" },
+    { slug: "futbol", name: "Fútbol", icon: "⚽", link: "/products/category/futbol" },
+    { slug: "basketball", name: "Basketball", icon: "🏀", link: "/products/category/basketball" },
+    { slug: "tenis", name: "Tenis", icon: "🎾", link: "/products/category/tenis" },
+    { slug: "baseball", name: "Baseball", icon: "⚾", link: "/products/category/baseball" },
+    { slug: "otros", name: "Otros", icon: "🏆", link: "/products/category/otros" },
   ];
 
   return (
@@ -110,7 +110,8 @@ export const Home = () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-      </section>
+        
+        </section>
 
       {/* Beneficios */}
       <section className="bg-white border-t border-gray-200">

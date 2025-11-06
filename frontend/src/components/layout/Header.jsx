@@ -137,31 +137,31 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
       <nav className="bg-white border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap gap-6 text-sm font-medium text-gray-700">
           <Link
-            to="/category/futbol"
+            to="/products/category/futbol"
             className="hover:text-blue-600 transition-colors"
           >
             ⚽ Fútbol
           </Link>
           <Link
-            to="/category/basketball"
+            to="/products/category/basketball"
             className="hover:text-blue-600 transition-colors"
           >
             🏀 Basketball
           </Link>
           <Link
-            to="/category/tenis"
+            to="/products/category/tenis"
             className="hover:text-blue-600 transition-colors"
           >
             🎾 Tenis
           </Link>
           <Link
-            to="/category/baseball"
+            to="/products/category/baseball"
             className="hover:text-blue-600 transition-colors"
           >
             ⚾ Baseball
           </Link>
           <Link
-            to="/category/otros"
+            to="/products/category/otros"
             className="hover:text-blue-600 transition-colors"
           >
             🏆 Otros Deportes

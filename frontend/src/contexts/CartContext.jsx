@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 const CartContext = createContext();
 
 // helper: detecta campo de stock posible en product
+// eslint-disable-next-line react-refresh/only-export-components
 export const getStockFromProduct = (p) => {
   if (!p) return null;
   const keys = ["stock", "quantityAvailable", "inventory", "stockQty", "qty", "available"];

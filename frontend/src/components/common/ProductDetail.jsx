@@ -12,32 +12,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  // Datos de ejemplo - en producción vendrían del backend
-  // const products = {
-  //   1: {
-  //     id: 1,
-  //     name: "Camiseta Retro Brasil 1970 - Pelé #10",
-  //     price: 38900.99,
-  //     originalPrice: 45000.00,
-  //     images: [null, null, null],
-  //     description: "Camiseta oficial de la selección brasileña de 1970, año del tricampeonato mundial. Réplica auténtica con el número 10 de Pelé en la espalda.",
-  //     condition: "Nuevo",
-  //     shipping: "free",
-  //     category: "Fútbol",
-  //     seller: "Retro Sports Collection",
-  //     stock: 5,
-  //     specifications: {
-  //       "Talla": "M, L, XL",
-  //       "Material": "Algodón 100%",
-  //       "Color": "Amarillo/Verde",
-  //       "Año": "1970"
-  //     }
-  //   },
-  //   // ... resto de productos
-  // };
-
-  // const product = products[id]; // Usar datos de ejemplo
-  const product = getProductById(id); // Usar contexto de productos
+  const product = getProductById(id);
 
   if (loading) {
     return (
@@ -61,6 +36,24 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  // precio numeric
+  const priceNum = Number(product.price) || 0;
+
+  // detectar shipping numérico o strings que indiquen "gratis"
+  const shippingCost = (() => {
+    const s = product.shipping;
+    if (s == null) return null;
+    const n = Number(s);
+    if (!Number.isNaN(n)) return n;
+    if (typeof s === 'string' && /free|envio gratis|envíos gratis|envios gratis|gratis/i.test(s)) return 0;
+    return null;
+  })();
+
+  const isFreeShipping = shippingCost === 0 || priceNum > 45000;
+
+  // stock seguro
+  const stockValue = Number(product.stock) || 0;
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -89,7 +82,7 @@ const ProductDetail = () => {
             <div className="w-full aspect-square bg-gray-200 border-2 border-gray-400 flex items-center justify-center">
               {product.images ? (
                 <img 
-                  src={product.images} 
+                  src={Array.isArray(product.images) ? product.images[selectedImage] : product.images} 
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />
@@ -104,9 +97,7 @@ const ProductDetail = () => {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square bg-gray-200 border-2 ${
-                      selectedImage === index ? 'border-blue-600' : 'border-gray-400'
-                    } hover:border-blue-400 transition flex items-center justify-center`}
+                    className={`aspect-square bg-gray-200 border-2 ${selectedImage === index ? 'border-blue-600' : 'border-gray-400'} hover:border-blue-400 transition flex items-center justify-center`}
                   >
                     {img ? (
                       <img src={img} alt={`Vista ${index + 1}`} className="w-full h-full object-cover" />
@@ -133,24 +124,24 @@ const ProductDetail = () => {
             <div className="bg-white border-2 border-gray-400 p-6">
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="text-4xl font-bold text-green-700">
-                  ${product.price}
+                  ${priceNum.toFixed(2)}
                 </span>
                 {product.originalPrice && (
                   <>
                     <span className="text-xl text-gray-500 line-through">
-                      ${product.originalPrice.toFixed(2)}
+                      ${Number(product.originalPrice).toFixed(2)}
                     </span>
                     <span className="bg-red-500 text-white text-sm font-bold px-2 py-1">
-                      {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
+                      {Math.round((1 - priceNum / Number(product.originalPrice)) * 100)}% OFF
                     </span>
                   </>
                 )}
               </div>
               <p className="text-sm text-gray-600">
-                {product.shipping === 'free' ? (
+                {isFreeShipping ? (
                   <span className="text-green-600 font-semibold">✓ Envío gratis</span>
                 ) : (
-                  `Envío: $${product.shipping}`
+                  <span>Envíos desde $5000</span>
                 )}
               </p>
             </div>
@@ -172,14 +163,15 @@ const ProductDetail = () => {
                     {quantity}
                   </span>
                   <button
-                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                    onClick={() => setQuantity(Math.min(stockValue || quantity + 1, quantity + 1))}
                     className="px-4 py-2 hover:bg-gray-200 font-bold text-xl"
+                    disabled={stockValue > 0 && quantity >= stockValue}
                   >
                     +
                   </button>
                 </div>
                 <span className="text-sm text-gray-600">
-                  (Máximo: {product.stock})
+                  (Máximo: {stockValue})
                 </span>
               </div>
             </div>

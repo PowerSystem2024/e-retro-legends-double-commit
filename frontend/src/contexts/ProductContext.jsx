@@ -19,7 +19,7 @@ export const ProductProvider = ({ children }) => {
     const fetchProducts = async () => {
         try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/api/products/products', {
+        const response = await fetch('https://retrolegendsback.vercel.app/api/products', {
             method: 'GET',
             credentials: 'include',
         });

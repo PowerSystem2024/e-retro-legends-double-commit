@@ -1,4 +1,4 @@
-import { GET_ALL_PRODUCTS } from "./constants.js";
+import { CREATE_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, GET_PRODUCT_BY_ID } from "./constants.js";
 
 export class ProductController {
   constructor({ productsDB }) {
@@ -16,7 +16,6 @@ export class ProductController {
 
       return res.status(200).json(products);
     } catch (error) {
-      console.error("Error al obtener productos:", error);
       return res.status(500).json({ message: "Error en el servidor: " + error.message });
     }
   };
@@ -24,35 +23,26 @@ export class ProductController {
   getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-      const result = await this.productsDB.query(
-        "SELECT * FROM products WHERE id = $1",
-        [id]
-      );
+      const result = await this.productsDB.query(GET_PRODUCT_BY_ID, [id]);
       const product = this.getFirstRow(result);
-      if (!product)
-        return res.status(404).json({ message: "Producto no encontrado" });
 
-      res.status(200).json(product);
+      if (!product) return res.status(404).json({ message: "Producto no encontrado" });
+
+      return res.status(200).json(product);
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Error al obtener el producto: " + error.message });
+      return res.status(500).json({ message: "Error al obtener el producto: " + error.message });
     }
   };
 
   createProduct = async (req, res) => {
     const { name, price, stock } = req.body;
     try {
-      const result = await this.productsDB.query(
-        "INSERT INTO products (name, price, stock) VALUES ($1, $2, $3) RETURNING *",
-        [name, price, stock]
-      );
+      const result = await this.productsDB.query(CREATE_PRODUCT , [name, price, stock]);
       const newProduct = this.getFirstRow(result);
-      res.status(201).json(newProduct);
+
+      return res.status(201).json(newProduct);
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Error al crear el producto: " + error.message });
+      return res.status(500).json({ message: "Error al crear el producto: " + error.message });
     }
   };
 
@@ -65,12 +55,12 @@ export class ProductController {
         [name, price, stock, id]
       );
       const updatedProduct = this.getFirstRow(result);
-      if (!updatedProduct)
-        return res.status(404).json({ message: "Producto no encontrado" });
+      
+      if (!updatedProduct) return res.status(404).json({ message: "Producto no encontrado" });
 
-      res.status(200).json(updatedProduct);
+      return res.status(200).json(updatedProduct);
     } catch (error) {
-      res
+      return res
         .status(500)
         .json({ message: "Error al actualizar el producto: " + error.message });
     }
@@ -79,17 +69,13 @@ export class ProductController {
   deleteProduct = async (req, res) => {
     const { id } = req.params;
     try {
-      const result = await this.productsDB.query(
-        "DELETE FROM products WHERE id = $1 RETURNING *",
-        [id]
-      );
+      const result = await this.productsDB.query(DELETE_PRODUCT, [id]);
       const deletedProduct = this.getFirstRow(result);
-      if (!deletedProduct)
-        return res.status(404).json({ message: "Producto no encontrado" });
+      if (!deletedProduct) return res.status(404).json({ message: "Producto no encontrado" });
 
-      res.status(200).json({ message: "Producto eliminado correctamente" });
+      return res.status(200).json({ message: "Producto eliminado correctamente" });
     } catch (error) {
-      res
+      return res
         .status(500)
         .json({ message: "Error al eliminar el producto: " + error.message });
     }

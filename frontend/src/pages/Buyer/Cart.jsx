@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../../contexts/CartContext";
+import { useCart, getStockFromProduct } from "../../contexts/CartContext";
 import Button from "../../components/common/Button";
 
 const Cart = () => {
@@ -98,9 +98,7 @@ const Cart = () => {
                       <div className="flex items-center gap-4">
                         <div className="flex items-center border-2 border-gray-400">
                           <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
-                            }
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="px-3 py-1 hover:bg-gray-200 font-bold"
                           >
                             -
@@ -109,10 +107,17 @@ const Cart = () => {
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
-                            }
-                            className="px-3 py-1 hover:bg-gray-200 font-bold"
+                            onClick={() => {
+                              const stock = getStockFromProduct(item);
+                              if (typeof stock === "number" && item.quantity + 1 > stock) {
+                                // feedback simple (puedes reemplazar por toast)
+                                alert("No hay suficiente stock disponible");
+                                return;
+                              }
+                              updateQuantity(item.id, item.quantity + 1);
+                            }}
+                            className={`px-3 py-1 hover:bg-gray-200 font-bold ${ (typeof getStockFromProduct(item) === "number" && item.quantity >= getStockFromProduct(item)) ? "opacity-60 cursor-not-allowed" : "" }`}
+                            aria-disabled={typeof getStockFromProduct(item) === "number" && item.quantity >= getStockFromProduct(item)}
                           >
                             +
                           </button>

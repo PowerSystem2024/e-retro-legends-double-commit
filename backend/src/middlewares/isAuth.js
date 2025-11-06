@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== "production") {
 
 export const isAuth = (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies.e_retro_legends_token;
 
     if (!token) {
       return res.status(401).json({ message: "Not authorized." });

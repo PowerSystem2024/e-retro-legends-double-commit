@@ -5,10 +5,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { CartProvider } from "./contexts/CartContext";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
 
 // Páginas públicas
 import { Home } from "./pages/Public/Home";
@@ -35,39 +33,8 @@ import ProductManagement from "./pages/Seller/ProductManagement";
 import ProductForm from "./pages/Seller/ProductForm";
 
 import "./App.css";
-
-// Componente de rutas protegidas
-const ProtectedRoute = ({ children, allowedRole }) => {
-  const { isAuthenticated, userRole } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (allowedRole && userRole !== allowedRole) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
-
-// Componente Layout
-const Layout = ({ children }) => {
-  const { isAuthenticated, user, userRole, logout } = useAuth();
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header
-        isAuthenticated={isAuthenticated}
-        user={user}
-        userRole={userRole}
-        onLogout={logout}
-      />
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </div>
-  );
-};
+import { ProtectedRoute } from "./components/ProtectedRoutes";
+import { Layout } from "./layout";
 
 function App() {
   const { user } = useAuth()

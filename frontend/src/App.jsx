@@ -66,6 +66,7 @@ const Layout = ({ children }) => {
 };
 
 function App() {
+  const { user } = useAuth()
   return (
     <Router>
       <AuthProvider>
@@ -113,7 +114,7 @@ function App() {
                 path="/seller/dashboard"
                 element={
                   <ProtectedRoute allowedRole="seller">
-                    <SellerDashboard />
+                    <SellerDashboard user={user} />
                   </ProtectedRoute>
                 }
               />

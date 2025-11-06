@@ -44,7 +44,6 @@ export const AllProducts = () => {
       })
     : products;
 
-    console.log({ products:normalize( products.map((p) => p.category)) })
   return (
     <div className="min-h-screen bg-gray-50">
       <section className="max-w-7xl mx-auto px-4 py-10">
@@ -61,9 +60,9 @@ export const AllProducts = () => {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="bg-white p-8 rounded border border-gray-200 text-center">
+          <div className="bg-white p-8 border border-gray-200 text-center">
             <p className="text-gray-700 mb-4">No se encontraron productos.</p>
-            <Link to="/products" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">Ver todos los productos</Link>
+            <Link to="/products" className="inline-block bg-blue-600 text-white px-4 py-2 hover:outline-1 outline-blue-600 outline-offset-2">Ver todos los productos</Link>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

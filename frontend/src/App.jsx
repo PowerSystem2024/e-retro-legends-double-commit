@@ -19,6 +19,9 @@ import { ProductProvider } from "./contexts/ProductContext";
 import Products from "./pages/Public/Products";
 import { AllProducts } from "./pages/Public/Products";
 import { SearchResults } from "./pages/Public/SearchResults";
+import { About } from './pages/Public/AboutUs';
+import { Help } from './pages/Public/Help';
+import {SellerPage} from "./pages/Public/SellerInfo";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
@@ -83,6 +86,10 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/products/category/:categorySlug" element={<AllProducts />} />
               <Route path="/search" element={<SearchResults />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/help" element={<Help />} /> 
+              <Route path="/sellerInfo" element={<SellerPage />} />
+
               {/* Rutas Comprador */}
               <Route path="/cart" element={<Cart />} />
               <Route

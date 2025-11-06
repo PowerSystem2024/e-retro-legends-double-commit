@@ -1,6 +1,7 @@
 import { ProductCard } from "../../components/common/ProductCard";
 import { useProducts } from "../../contexts/ProductContext";
 import { useParams, Link } from "react-router-dom";
+import useScrollToHash from '../../components/common/ScrollAuto';
 
 const normalize = (s) =>
   String(s ?? "")
@@ -15,6 +16,7 @@ const prettyTitle = (slug) =>
   slug ? slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "Todos los productos";
 
 export const AllProducts = () => {
+  useScrollToHash(window.innerWidth < 768 ? 60 : 100);
   const { products, loading, error } = useProducts();
   const { categorySlug } = useParams();
   const activeSlug = categorySlug || null;

@@ -1,4 +1,4 @@
-import { CREATE_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, GET_PRODUCT_BY_ID } from "./constants.js";
+import { CREATE_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, GET_PRODUCT_BY_ID, UPDATE_PRODUCT } from "./constants.js";
 
 export class ProductController {
   constructor({ productsDB }) {
@@ -48,14 +48,11 @@ export class ProductController {
 
   updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { name, price, stock } = req.body;
+    const { name, price, stock, image } = req.body;
     try {
-      const result = await this.productsDB.query(
-        "UPDATE products SET name = $1, price = $2, stock = $3 WHERE id = $4 RETURNING *",
-        [name, price, stock, id]
-      );
+      const result = await this.productsDB.query(UPDATE_PRODUCT, [name, price, stock, image, id]);
       const updatedProduct = this.getFirstRow(result);
-      
+
       if (!updatedProduct) return res.status(404).json({ message: "Producto no encontrado" });
 
       return res.status(200).json(updatedProduct);

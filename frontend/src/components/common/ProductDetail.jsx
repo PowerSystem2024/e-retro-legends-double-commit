@@ -203,20 +203,42 @@ const ProductDetail = () => {
           <h3 className="text-xl font-bold text-gray-900 mb-4">Descripción</h3>
           <p className="text-gray-700 mb-6">{product.description}</p> 
 
-          {/* Especificaciones */}
+         {/* Especificaciones */}
           <h3 className="text-xl font-bold text-gray-900 mb-4">Especificaciones</h3>
-          {product.specifications ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {Object.entries(product.specifications).map(([key, value]) => (
-              <div key={key} className="flex border-b border-gray-200 py-2">
-                <span className="font-semibold text-gray-700 w-1/3">{key}:</span>
-                <span className="text-gray-600 w-2/3">{value}</span>
-              </div>
-            ))}
-            </div>
-            ) : (
-              <p className="text-gray-600">Este producto no tiene especificaciones registradas.</p>
+
+          {product.brand || product.year || product.size || product.color ? (
+            <table className="w-full border border-gray-200 rounded-md text-left">
+              <tbody>
+                {product.brand && (
+                  <tr className="border-b border-gray-200">
+                    <th className="px-3 py-2 font-semibold text-gray-700 w-1/3">Marca:</th>
+                    <td className="px-3 py-2 text-gray-600">{product.brand}</td>
+                  </tr>
+                )}
+                {product.year && (
+                  <tr className="border-b border-gray-200">
+                    <th className="px-3 py-2 font-semibold text-gray-700 w-1/3">Año:</th>
+                    <td className="px-3 py-2 text-gray-600">{product.year}</td>
+                  </tr>
+                )}
+                {product.size && (
+                  <tr className="border-b border-gray-200">
+                    <th className="px-3 py-2 font-semibold text-gray-700 w-1/3">Talle:</th>
+                    <td className="px-3 py-2 text-gray-600">{product.size}</td>
+                  </tr>
+                )}
+                {product.color && (
+                  <tr>
+                    <th className="px-3 py-2 font-semibold text-gray-700 w-1/3">Color:</th>
+                    <td className="px-3 py-2 text-gray-600">{product.color}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-gray-600">Este producto no tiene especificaciones registradas.</p>
           )}
+
           
           {/* Categoría */}
           <h3 className="text-xl font-bold text-gray-900 mb-4 mt-4">Categoria del Producto</h3>

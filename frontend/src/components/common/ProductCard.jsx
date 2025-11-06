@@ -3,12 +3,43 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 
 export const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
+
+  // mismo helper local para detectar stock
+  const getStockFromProduct = (p) => {
+    if (!p) return null;
+    const keys = ["stock", "quantityAvailable", "inventory", "stockQty", "qty", "available"];
+    for (const k of keys) {
+      if (Object.prototype.hasOwnProperty.call(p, k)) {
+        const v = p[k];
+        if (typeof v === "number" && Number.isFinite(v)) return v;
+        if (typeof v === "string" && v !== "") {
+          const n = Number(v);
+          if (!Number.isNaN(n)) return n;
+        }
+      }
+    }
+    return null;
+  };
+
+  const currentCartItem = cartItems.find((it) => it.id === product.id);
+  const currentQty = currentCartItem ? currentCartItem.quantity : 0;
+  const stock = getStockFromProduct(product);
+  const isSoldOut = typeof stock === "number" && stock <= 0;
+  const cannotAddMore = typeof stock === "number" && currentQty >= stock;
 
   const handleAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart(product);
+    if (isSoldOut || cannotAddMore) {
+      // feedback simple; reemplaza por tu sistema de toasts si tienes uno
+      alert("No hay suficiente stock disponible");
+      return;
+    }
+    const ok = addToCart(product, 1);
+    if (!ok) {
+      alert("No se pudo agregar: stock insuficiente");
+    }
   };
 
   return (
@@ -53,15 +84,26 @@ export const ProductCard = ({ product }) => {
             </p>
           )}
         </div>
-        </Link>
+      </Link>
       <div className="p-3 pt-0">
         <button
           onClick={handleAdd}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-3 cursor-pointer transition"
+          disabled={isSoldOut || cannotAddMore}
+          className={`w-full text-white text-sm font-semibold py-2 px-3 cursor-pointer transition rounded ${
+            isSoldOut || cannotAddMore
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
           aria-label={`Agregar " ${product.name} " al carrito`}
-          title={`Agregar "${product.name}" al carrito`}
-          >
-          Agregar al carrito
+          title={
+            isSoldOut
+              ? "Agotado"
+              : cannotAddMore
+              ? `Máximo ${stock} en stock`
+              : `Agregar "${product.name}" al carrito`
+          }
+        >
+          {isSoldOut ? "Agotado" : cannotAddMore ? `Máximo (${stock})` : "Agregar al carrito"}
         </button>
       </div>
     </div>

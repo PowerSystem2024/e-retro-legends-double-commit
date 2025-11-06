@@ -29,7 +29,7 @@ export const Home = () => {
 
   const categories = [
     { slug: "futbol", name: "Fútbol", icon: "⚽", link: "/products/category/futbol" },
-    { slug: "basketball", name: "Basketball", icon: "🏀", link: "/products/category/basketball" },
+    { slug: "basketball", name: "Basket ", icon: "🏀", link: "/products/category/basketball" },
     { slug: "tenis", name: "Tenis", icon: "🎾", link: "/products/category/tenis" },
     { slug: "baseball", name: "Baseball", icon: "⚾", link: "/products/category/baseball" },
     { slug: "otros", name: "Otros", icon: "🏆", link: "/products/category/otros" },

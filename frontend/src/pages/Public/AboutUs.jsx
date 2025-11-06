@@ -166,7 +166,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
                     </li>
                 </ul>
                 <button className="w-full mt-6 bg-blue-600 text-white py-3 font-bold hover:bg-blue-700 transition border-2 border-blue-800">
-                    Enviar CV
+                     <a href="mailto:cv@retrolegends.com">Enviar CV</a>
                 </button>
                 </div>
             </div>
@@ -224,7 +224,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
                     </p>
                 </div>
                 <button className="w-full mt-6 bg-yellow-500 text-gray-900 py-3 font-bold hover:bg-yellow-600 transition border-2 border-yellow-600">
-                    Kit de Prensa
+                    <a href="mailto:prensa@retrolegends.com">Kit de Prensa</a>
                 </button>
                 </div>
             </div>
@@ -246,7 +246,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
                     Explorar Productos
                 </button>
                 </Link>
-                <Link to="/register">
+                <Link to="/login">
                 <button className="bg-transparent text-white px-8 py-3 font-bold hover:bg-blue-800 transition border-2 border-white">
                     Crear Cuenta
                 </button>

@@ -32,7 +32,7 @@ useScrollToHash(1000);
                 Únite a miles de vendedores y monetiza tu pasión por los deportes retro
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-                <Link to="/seller/register" className="bg-white text-blue-600 px-8 py-3 font-bold hover:bg-gray-100 transition border-2 border-white">
+                <Link to="/login" className="bg-white text-blue-600 px-8 py-3 font-bold hover:bg-gray-100 transition border-2 border-white">
                 Empezar Ahora
                 </Link>
                 <button
@@ -108,7 +108,7 @@ useScrollToHash(1000);
                     <p className="text-gray-600 mb-6">
                     Regístrate como vendedor en e-Retro Legends con tu email y contraseña. Completa tu perfil con información básica.
                     </p>
-                    <Link to="/seller/register" className="bg-blue-600 text-white px-6 py-2 font-bold hover:bg-blue-700 transition">
+                    <Link to="/login" className="bg-blue-600 text-white px-6 py-2 font-bold hover:bg-blue-700 transition">
                     Crear Cuenta
                     </Link>
                 </div>
@@ -121,7 +121,7 @@ useScrollToHash(1000);
                     <p className="text-gray-600 mb-6">
                     Personaliza tu perfil de vendedor, añade datos bancarios para pagos y configura tus métodos de envío.
                     </p>
-                    <Link to="/seller/settings" className="bg-green-600 text-white px-6 py-2 font-bold hover:bg-green-700 transition">
+                    <Link to="/seller/dashboard" className="bg-green-600 text-white px-6 py-2 font-bold hover:bg-green-700 transition">
                     Ir a Configuración
                     </Link>
                 </div>
@@ -331,7 +331,7 @@ useScrollToHash(1000);
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Guides */}
                 <div className="bg-white border-2 border-gray-400 p-8">
-                    <h3 className="text-2xl font-bold text-blue-900 mb-6">📚 Guías y Tutoriales</h3>
+                    <h3 className="text-2xl font-bold text-blue-900 mb-6"><Link to="/404">📚 Guías y Tutoriales</Link></h3>
                     <div className="space-y-4">
                     <div className="flex gap-4 pb-4 border-b-2 border-gray-200">
                         <span className="text-2xl">📖</span>
@@ -366,7 +366,7 @@ useScrollToHash(1000);
 
                 {/* Tools */}
                 <div className="bg-white border-2 border-gray-400 p-8">
-                    <h3 className="text-2xl font-bold text-blue-900 mb-6">🛠️ Herramientas</h3>
+                    <h3 className="text-2xl font-bold text-blue-900 mb-6"><Link to="/404">🛠️ Herramientas</Link></h3>
                     <div className="space-y-4">
                     <div className="flex gap-4 pb-4 border-b-2 border-gray-200">
                         <span className="text-2xl">📊</span>
@@ -408,19 +408,19 @@ useScrollToHash(1000);
                     <div className="text-5xl mb-4">🚀</div>
                     <h4 className="font-bold text-lg mb-2">Principiantes</h4>
                     <p className="text-sm text-gray-600 mb-4">Guía paso a paso para nuevos vendedores</p>
-                    <Link to="/seller/guides/beginners" className="text-purple-600 font-bold hover:underline">Ver Curso →</Link>
+                    <Link to="/404" className="text-purple-600 font-bold hover:underline">Ver Curso →</Link>
                     </div>
                     <div className="bg-white border-2 border-purple-300 p-6 text-center hover:shadow-lg transition">
                     <div className="text-5xl mb-4">📈</div>
                     <h4 className="font-bold text-lg mb-2">Intermedio</h4>
                     <p className="text-sm text-gray-600 mb-4">Estrategias para aumentar tus ventas</p>
-                    <Link to="/seller/guides/intermediate" className="text-purple-600 font-bold hover:underline">Ver Curso →</Link>
+                    <Link to="/404" className="text-purple-600 font-bold hover:underline">Ver Curso →</Link>
                     </div>
                     <div className="bg-white border-2 border-purple-300 p-6 text-center hover:shadow-lg transition">
                     <div className="text-5xl mb-4">👑</div>
                     <h4 className="font-bold text-lg mb-2">Avanzado</h4>
                     <p className="text-sm text-gray-600 mb-4">Optimización y escalabilidad del negocio</p>
-                    <Link to="/seller/guides/advanced" className="text-purple-600 font-bold hover:underline">Ver Curso →</Link>
+                    <Link to="/404" className="text-purple-600 font-bold hover:underline">Ver Curso →</Link>
                     </div>
                 </div>
                 </div>
@@ -472,7 +472,7 @@ useScrollToHash(1000);
                 <p className="text-sm opacity-90">Únite hoy y empieza a vender en minutos. Tenemos soporte para nuevos vendedores.</p>
                 </div>
                 <div className="flex gap-4">
-                <Link to="/seller/register" className="bg-white text-green-700 px-6 py-3 font-bold rounded hover:bg-gray-100 transition">Registrarme</Link>
+                <Link to="Auth/Register" className="bg-white text-green-700 px-6 py-3 font-bold rounded hover:bg-gray-100 transition">Registrarme</Link>
                 <Link to="/help" className="border-2 border-white px-6 py-3 font-bold rounded hover:bg-white hover:text-green-700 transition">Necesito ayuda</Link>
                 </div>
             </div>

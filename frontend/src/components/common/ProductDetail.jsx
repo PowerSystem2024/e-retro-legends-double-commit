@@ -64,7 +64,6 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    // alert(`${quantity} ${quantity === 1 ? 'unidad' : 'unidades'} agregada(s) al carrito`);
   };
 
   const handleBuyNow = () => {

@@ -119,5 +119,6 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
-  return context;
+  const { isAuthenticated, userRole, user, error, login, logout, register } = context
+  return { isAuthenticated, userRole, user, error, login, logout, register } ;
 };

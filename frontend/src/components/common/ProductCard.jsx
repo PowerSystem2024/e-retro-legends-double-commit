@@ -8,7 +8,7 @@ export const ProductCard = ({ product }) => {
   const handleAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart()
+    addToCart(product);
   };
 
   return (

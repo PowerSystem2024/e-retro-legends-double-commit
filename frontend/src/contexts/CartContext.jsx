@@ -45,6 +45,12 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   const addToCart = (product, quantity = 1) => {
+    // Protege contra llamadas sin product (evita el error product.id)
+    if (!product || !product.id) {
+      console.warn("addToCart: product inválido", product);
+      return;
+    }
+
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
 

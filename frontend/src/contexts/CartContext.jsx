@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 const CartContext = createContext();
 
 // helper: detecta campo de stock posible en product
-const getStockFromProduct = (p) => {
+export const getStockFromProduct = (p) => {
   if (!p) return null;
   const keys = ["stock", "quantityAvailable", "inventory", "stockQty", "qty", "available"];
   for (const k of keys) {
@@ -114,16 +114,30 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, quantity) => {
+    // si piden 0 o menos, eliminar
     if (quantity <= 0) {
       removeFromCart(productId);
-      return;
+      return true;
     }
 
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
-      )
-    );
+    let blocked = false;
+
+    setCartItems((prevItems) => {
+      const item = prevItems.find((it) => it.id === productId);
+      if (!item) return prevItems;
+
+      const stock = getStockFromProduct(item);
+      if (typeof stock === "number" && quantity > stock) {
+        // no actualizar si excede stock
+        console.warn("updateQuantity: excede stock", { productId, requested: quantity, stock });
+        blocked = true;
+        return prevItems;
+      }
+
+      return prevItems.map((it) => (it.id === productId ? { ...it, quantity } : it));
+    });
+
+    return !blocked;
   };
 
   const clearCart = () => {

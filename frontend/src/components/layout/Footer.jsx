@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 const Footer = () => {
   return (
     <footer className="bg-gray-200 border-t-4 border-gray-400 mt-8">
@@ -8,38 +9,38 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Acerca */}
           <div>
-            <h3 className="font-bold text-sm mb-3 text-blue-900">Acerca de e-Retro Legends</h3>
+            <h3 className="font-bold text-sm mb-3 text-blue-900"><Link to="/about">Acerca de e-Retro Legends</Link></h3>
             <ul className="text-xs space-y-2">
-              <li><Link to="/about" className="text-blue-600 hover:underline">Quiénes somos</Link></li>
-              <li><Link to="/careers" className="text-blue-600 hover:underline">Trabaja con nosotros</Link></li>
-              <li><Link to="/press" className="text-blue-600 hover:underline">Prensa</Link></li>
+              <li><Link to="/about#quienes-somos" className="text-blue-600 hover:underline">Quiénes somos</Link></li>
+              <li><Link to="/about#careers" className="text-blue-600 hover:underline">Trabaja con nosotros</Link></li>
+              <li><Link to="/about#press" className="text-blue-600 hover:underline">Prensa</Link></li>
             </ul>
           </div>
 
           {/* Ayuda */}
           <div>
-            <h3 className="font-bold text-sm mb-3 text-blue-900">Ayuda y Contacto</h3>
+            <h3 className="font-bold text-sm mb-3 text-blue-900"><Link to="/help">Ayuda y Contacto</Link></h3>
             <ul className="text-xs space-y-2">
               <li><Link to="/help" className="text-blue-600 hover:underline">Centro de ayuda</Link></li>
-              <li><Link to="/contact" className="text-blue-600 hover:underline">Contáctanos</Link></li>
-              <li><Link to="/shipping" className="text-blue-600 hover:underline">Información de envío</Link></li>
-              <li><Link to="/returns" className="text-blue-600 hover:underline">Devoluciones</Link></li>
+              <li><Link to="/help#shipping" className="text-blue-600 hover:underline">Información de envío</Link></li>
+              <li><Link to="/help#returns" className="text-blue-600 hover:underline">Devoluciones</Link></li>
+              <li><Link to="/help#contact" className="text-blue-600 hover:underline">Contáctanos</Link></li>
             </ul>
           </div>
 
           {/* Vendedor */}
           <div>
-            <h3 className="font-bold text-sm mb-3 text-blue-900">Vender</h3>
+            <h3 className="font-bold text-sm mb-3 text-blue-900"><Link to="/sellerInfo">Vendedor</Link></h3>
             <ul className="text-xs space-y-2">
-              <li><Link to="/seller/start" className="text-blue-600 hover:underline">Empieza a vender</Link></li>
-              <li><Link to="/seller/fees" className="text-blue-600 hover:underline">Tarifas de venta</Link></li>
-              <li><Link to="/seller/resources" className="text-blue-600 hover:underline">Recursos para vendedores</Link></li>
+              <li><Link to="/sellerInfo#start" className="text-blue-600 hover:underline">Empieza a vender</Link></li>
+              <li><Link to="/sellerInfo#fees" className="text-blue-600 hover:underline">Tarifas de venta</Link></li>
+              <li><Link to="/sellerInfo#resources" className="text-blue-600 hover:underline">Recursos para vendedores</Link></li>
             </ul>
           </div>
 
           {/* Legal */}
           <div>
-            <h3 className="font-bold text-sm mb-3 text-blue-900">Legal</h3>
+            <h3 className="font-bold text-sm mb-3 text-blue-900"><Link to="/legal">Legal</Link></h3>
             <ul className="text-xs space-y-2">
               <li><Link to="/privacy" className="text-blue-600 hover:underline">Política de privacidad</Link></li>
               <li><Link to="/terms" className="text-blue-600 hover:underline">Términos de uso</Link></li>

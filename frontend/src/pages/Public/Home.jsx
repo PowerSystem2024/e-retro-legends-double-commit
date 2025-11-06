@@ -120,7 +120,7 @@ export const Home = () => {
             <div className="text-4xl mb-3">🚚</div>
             <h4 className="font-semibold text-gray-900 mb-1">Envío gratis</h4>
             <p className="text-sm text-gray-600">
-              En compras superiores a $100.000
+              En compras superiores a $45.000
             </p>
           </div>
 

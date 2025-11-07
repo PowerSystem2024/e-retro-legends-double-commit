@@ -2,6 +2,7 @@ import { ProductCard } from "../../components/common/ProductCard";
 import { useProducts } from "../../contexts/ProductContext";
 import { useParams, Link } from "react-router-dom";
 import useScrollToHash from '../../components/common/ScrollAuto';
+import { Loader } from "../../components/common/Loader";
 
 const normalize = (s) =>
   String(s ?? "")
@@ -21,16 +22,7 @@ export const AllProducts = () => {
   const { categorySlug } = useParams();
   const activeSlug = categorySlug || null;
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="text-center">
-        <div className="text-6xl mb-4">⏳</div>
-        <p className="text-gray-600">Cargando productos...</p>
-        </div>
-      </div>
-    );
-  }
+  if (loading) <Loader />
 
   if (error) {
     return (

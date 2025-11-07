@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import Button from "../common/Button";
+import { ShoppingCart } from "lucide-react"
 
 const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { getCartItemsCount } = useCart();
   
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
-
+  
   return (
     <header className="sticky top-0 left-0 right-0 z-100 border-b border-gray-200 bg-white shadow-sm">
       {/* Top bar */}
@@ -110,22 +110,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
           className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2 hover:bg-gray-50 transition"
         >
           <span className="text-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-shopping-cart-icon lucide-shopping-cart"
-            >
-              <circle cx="8" cy="21" r="1" />
-              <circle cx="19" cy="21" r="1" />
-              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-            </svg>
+            <ShoppingCart size={24} />
           </span>
           <div className="text-left">
             <p className="text-xs text-gray-500">Carrito</p>

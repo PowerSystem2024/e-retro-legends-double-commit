@@ -9,9 +9,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(""); // 'buyer' or 'seller' <- en la base ya se crea por default comprador o sea 'buyer'
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const refreshUser = useCallback(async () => {
     try {
+      setIsLoading(true)
       const response = await fetch(
         "https://retrolegendsback.vercel.app/api/user/profile",
         {
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false)
         throw new Error(data.message)
       };
+      setIsLoading(false);
       setUser(data.user);
       setIsAuthenticated(true);
       setUserRole(data.user.role);
@@ -62,6 +65,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async ({ name, lastName, email, password, role }) => {
     try {
+      setIsLoading(true)
       const { ip, city, state, country } = getLocation()
       const response = await fetch(
         "https://retrolegendsback.vercel.app/api/user/signup",
@@ -74,6 +78,7 @@ export const AuthProvider = ({ children }) => {
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
+      setIsLoading(false);
       setUser(data.user);
     } catch (err) {
       setError(err);
@@ -83,6 +88,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
   try {
+    setIsLoading(true);
     const response = await fetch(
       "https://retrolegendsback.vercel.app/api/user/logout",
       {
@@ -93,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     );
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
-    
+    setIsLoading(false);
     // Limpiar todo localmente
     setUser(null);
     setIsAuthenticated(false);
@@ -112,6 +118,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     register,
+    isLoading
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

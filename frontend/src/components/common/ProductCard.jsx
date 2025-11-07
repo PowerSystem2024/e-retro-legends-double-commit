@@ -80,7 +80,7 @@ export const ProductCard = ({ product }) => {
           {product.condition && (
             <p className="text-xs text-gray-600 mt-1">
               Condición:{" "}
-              <span className="font-semibold">{product.condition}</span>
+              <span className="font-semibold">{product.condition === "new" ? "nuevo" : "usado"}</span>
             </p>
           )}
         </div>
@@ -89,7 +89,7 @@ export const ProductCard = ({ product }) => {
         <button
           onClick={handleAdd}
           disabled={isSoldOut || cannotAddMore}
-          className={`w-full text-white text-sm font-semibold py-2 px-3 cursor-pointer transition rounded ${
+          className={`w-full text-white text-sm font-semibold py-2 px-3 cursor-pointer transition ${
             isSoldOut || cannotAddMore
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700"

@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigation } from 'react-router-dom';
 
 export function ComingSoonPage() {
+    const navigate = useNavigation()
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
         <div className="max-w-2xl w-full bg-white border-2 border-gray-400 p-8 md:p-16 text-center">
@@ -19,7 +21,7 @@ export function ComingSoonPage() {
 
             {/* Botón Volver */}
             <button
-            onClick={() => window.location.href = '/'}
+            onClick={() => navigate("/")}
             className="px-8 py-3 bg-blue-600 text-white font-bold hover:bg-blue-700 transition border-2 border-blue-800"
             >
             ← Volver al Inicio

@@ -17,15 +17,15 @@ import { ProductProvider } from "./contexts/ProductContext";
 import Products from "./pages/Public/Products";
 import { AllProducts } from "./pages/Public/Products";
 import { SearchResults } from "./pages/Public/SearchResults";
-import { About } from './pages/Public/AboutUs';
-import { Help } from './pages/Public/Help';
+import { About } from "./pages/Public/AboutUs";
+import { Help } from "./pages/Public/Help";
 import { SellerPage } from "./pages/Public/SellerInfo";
 import { LegalPage } from "./pages/Public/Legals";
 import ComingSoonPage from "./pages/Public/404";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
-import Checkout from "./pages/Buyer/Checkout";
+import { Checkout } from "./pages/Buyer/Checkout";
 import OrderConfirmation from "./pages/Buyer/OrderConfirmation";
 import OrderHistory from "./pages/Buyer/OrderHistory";
 
@@ -39,92 +39,95 @@ import { ProtectedRoute } from "./components/ProtectedRoutes";
 import { Layout } from "./layout";
 
 function App() {
-  const { user } = useAuth()
+  const { user } = useAuth();
   return (
     <Router>
       <AuthProvider>
         <CartProvider>
           <ProductProvider>
-          <Layout>
-            <Routes>
-              {/* Rutas Públicas */}
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/category/:categorySlug" element={<AllProducts />} />
-              <Route path="/search" element={<SearchResults />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/help" element={<Help />} /> 
-              <Route path="/sellerInfo" element={<SellerPage />} />
-              <Route path="/legal" element={<LegalPage />} />
-              <Route path="/404" element={<ComingSoonPage />} />
+            <Layout>
+              <Routes>
+                {/* Rutas Públicas */}
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/products" element={<Products />} />
+                <Route
+                  path="/products/category/:categorySlug"
+                  element={<AllProducts />}
+                />
+                <Route path="/search" element={<SearchResults />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/sellerInfo" element={<SellerPage />} />
+                <Route path="/legal" element={<LegalPage />} />
+                <Route path="/404" element={<ComingSoonPage />} />
 
-              {/* Rutas Comprador */}
-              <Route path="/cart" element={<Cart />} />
-              <Route
-                path="/checkout"
-                element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/order-confirmation"
-                element={
-                  <ProtectedRoute>
-                    <OrderConfirmation />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/buyer/orders"
-                element={
-                  <ProtectedRoute allowedRole="buyer">
-                    <OrderHistory />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Rutas Comprador */}
+                <Route path="/cart" element={<Cart />} />
+                <Route
+                  path="/checkout"
+                  element={
+                    <ProtectedRoute>
+                      <Checkout />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/order-confirmation"
+                  element={
+                    <ProtectedRoute>
+                      <OrderConfirmation />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/buyer/orders"
+                  element={
+                    <ProtectedRoute allowedRole="buyer">
+                      <OrderHistory />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Rutas vendedor */}
-              <Route
-                path="/seller/dashboard"
-                element={
-                  <ProtectedRoute allowedRole="seller">
-                    <SellerDashboard user={user} />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/seller/products"
-                element={
-                  <ProtectedRoute allowedRole="seller">
-                    <ProductManagement />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/seller/products/new"
-                element={
-                  <ProtectedRoute allowedRole="seller">
-                    <ProductForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/seller/products/edit/:id"
-                element={
-                  <ProtectedRoute allowedRole="seller">
-                    <ProductForm />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Rutas vendedor */}
+                <Route
+                  path="/seller/dashboard"
+                  element={
+                    <ProtectedRoute allowedRole="seller">
+                      <SellerDashboard user={user} />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/seller/products"
+                  element={
+                    <ProtectedRoute allowedRole="seller">
+                      <ProductManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/seller/products/new"
+                  element={
+                    <ProtectedRoute allowedRole="seller">
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/seller/products/edit/:id"
+                  element={
+                    <ProtectedRoute allowedRole="seller">
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Cachear todos - redirección al inicio */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+                {/* Cachear todos - redirección al inicio */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
             </Layout>
           </ProductProvider>
         </CartProvider>

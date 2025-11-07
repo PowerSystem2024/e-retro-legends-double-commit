@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
-import { useAuth } from '../../contexts/AuthContext';
+//import { useAuth } from '../../contexts/AuthContext';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 
-const Checkout = () => {
+export const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  //const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -20,7 +20,7 @@ const Checkout = () => {
     city: '',
     state: '',
     zipCode: '',
-    country: 'Uruguay',
+    country: 'Argentina',
     // Payment Info
     cardNumber: '',
     cardName: '',
@@ -359,6 +359,4 @@ const Checkout = () => {
     </div>
   );
 };
-
-export default Checkout;
 

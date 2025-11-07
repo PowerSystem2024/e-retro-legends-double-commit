@@ -7,13 +7,21 @@ import {
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { CartProvider } from "./contexts/CartContext";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
 
 // Páginas públicas
 import { Home } from "./pages/Public/Home";
 import { Login } from "./pages/Auth/Login";
 import { Register } from "./pages/Auth/Register";
+import ProductDetail from "./components/common/ProductDetail";
+import { ProductProvider } from "./contexts/ProductContext";
+import Products from "./pages/Public/Products";
+import { AllProducts } from "./pages/Public/Products";
+import { SearchResults } from "./pages/Public/SearchResults";
+import { About } from './pages/Public/AboutUs';
+import { Help } from './pages/Public/Help';
+import { SellerPage } from "./pages/Public/SellerInfo";
+import { LegalPage } from "./pages/Public/Legals";
+import ComingSoonPage from "./pages/Public/404";
 
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
@@ -27,51 +35,31 @@ import ProductManagement from "./pages/Seller/ProductManagement";
 import ProductForm from "./pages/Seller/ProductForm";
 
 import "./App.css";
-
-// Componente de rutas protegidas
-const ProtectedRoute = ({ children, allowedRole }) => {
-  const { isAuthenticated, userRole } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (allowedRole && userRole !== allowedRole) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
-
-// Componente Layout
-const Layout = ({ children }) => {
-  const { isAuthenticated, user, userRole, logout } = useAuth();
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header
-        isAuthenticated={isAuthenticated}
-        user={user}
-        userRole={userRole}
-        onLogout={logout}
-      />
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </div>
-  );
-};
+import { ProtectedRoute } from "./components/ProtectedRoutes";
+import { Layout } from "./layout";
 
 function App() {
+  const { user } = useAuth()
   return (
     <Router>
       <AuthProvider>
         <CartProvider>
+          <ProductProvider>
           <Layout>
             <Routes>
               {/* Rutas Públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/category/:categorySlug" element={<AllProducts />} />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/help" element={<Help />} /> 
+              <Route path="/sellerInfo" element={<SellerPage />} />
+              <Route path="/legal" element={<LegalPage />} />
+              <Route path="/404" element={<ComingSoonPage />} />
 
               {/* Rutas Comprador */}
               <Route path="/cart" element={<Cart />} />
@@ -105,7 +93,7 @@ function App() {
                 path="/seller/dashboard"
                 element={
                   <ProtectedRoute allowedRole="seller">
-                    <SellerDashboard />
+                    <SellerDashboard user={user} />
                   </ProtectedRoute>
                 }
               />
@@ -137,7 +125,8 @@ function App() {
               {/* Cachear todos - redirección al inicio */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </Layout>
+            </Layout>
+          </ProductProvider>
         </CartProvider>
       </AuthProvider>
     </Router>

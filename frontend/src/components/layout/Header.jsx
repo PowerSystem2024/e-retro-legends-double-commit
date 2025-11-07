@@ -7,6 +7,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { getCartItemsCount } = useCart();
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   };
 
   return (
-    <header className="border-b border-gray-200 bg-white shadow-sm">
+    <header className="sticky top-0 left-0 right-0 z-100 border-b border-gray-200 bg-white shadow-sm">
       {/* Top bar */}
       <div className="bg-gray-100 text-gray-700 text-xs">
         <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
@@ -27,14 +28,15 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             <Link to="/about" className="hover:underline">
               Acerca de
             </Link>
-            <Link to="/contact" className="hover:underline">
+            <Link to="/help#bottom" className="hover:underline">
               Contacto
             </Link>
           </div>
           <div className="flex gap-4 items-center">
             {isAuthenticated ? (
-              <>
-                <span className="font-medium">Hola! {user.user_name || ""}</span>
+              <div className="flex items-center gap-1.5">
+                <img src={user.avatar} width={20} height={20} />
+                <span className="font-medium">Hola! {user.name || ""} {user.lastname}</span>
                 {userRole === "seller" && (
                   <Link
                     to="/seller/dashboard"
@@ -51,7 +53,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
                 <button onClick={onLogout} className="hover:text-blue-600">
                   Salir
                 </button>
-              </>
+              </div>
             ) : (
               <p className="flex items-center gap-2">
                 ¡Hola!
@@ -136,31 +138,31 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
       <nav className="bg-white border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap gap-6 text-sm font-medium text-gray-700">
           <Link
-            to="/category/futbol"
+            to="/products/category/futbol"
             className="hover:text-blue-600 transition-colors"
           >
             ⚽ Fútbol
           </Link>
           <Link
-            to="/category/basketball"
+            to="/products/category/basketball"
             className="hover:text-blue-600 transition-colors"
           >
             🏀 Basketball
           </Link>
           <Link
-            to="/category/tenis"
+            to="/products/category/tenis"
             className="hover:text-blue-600 transition-colors"
           >
             🎾 Tenis
           </Link>
           <Link
-            to="/category/baseball"
+            to="/products/category/baseball"
             className="hover:text-blue-600 transition-colors"
           >
             ⚾ Baseball
           </Link>
           <Link
-            to="/category/otros"
+            to="/products/category/otros"
             className="hover:text-blue-600 transition-colors"
           >
             🏆 Otros Deportes

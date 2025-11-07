@@ -2,82 +2,37 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductCard } from "../../components/common/ProductCard";
 import Button from "../../components/common/Button";
+import { useProducts } from "../../contexts/ProductContext";
 
 export const Home = () => {
   const navigate = useNavigate();
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Camiseta Retro Brasil 1970 - Pelé #10",
-      price: 38900.99,
-      image: null,
-      shipping: "free",
-      condition: "Nuevo",
-    },
-    {
-      id: 2,
-      name: "Jersey Chicago Bulls 1996 - Jordan #23",
-      price: 34900.99,
-      image: null,
-      shipping: "free",
-      condition: "Usado - Excelente",
-    },
-    {
-      id: 3,
-      name: "Raqueta Wilson Pro Staff 85 - Edición Sampras",
-      price: 410909.99,
-      image: null,
-      shipping: 15.0,
-      condition: "Nuevo",
-    },
-    {
-      id: 4,
-      name: "Camiseta Argentina 1986 - Maradona #10",
-      price: 69000.99,
-      image: null,
-      shipping: "free",
-      condition: "Réplica",
-    },
-    {
-      id: 5,
-      name: "Zapatillas Nike Air Jordan 1 Retro High OG",
-      price: 199900.99,
-      image: null,
-      shipping: "free",
-      condition: "Nuevo",
-    },
-    {
-      id: 6,
-      name: "Balón Adidas Tango España 82",
-      price: 27900.99,
-      image: null,
-      shipping: 10.0,
-      condition: "Coleccionable",
-    },
-    {
-      id: 7,
-      name: "Jersey Lakers Showtime 1985 - Magic Johnson #32",
-      price: 41340.99,
-      image: null,
-      shipping: "free",
-      condition: "Usado - Muy Bueno",
-    },
-    {
-      id: 8,
-      name: "Guantes de Boxeo Everlast Vintage 1980s",
-      price: 59000.99,
-      image: null,
-      shipping: 12.0,
-      condition: "Usado - Bueno",
-    },
-  ];
+  const { products, loading, error } = useProducts();
+
+  const featuredProducts = products.slice(0, 8);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <p className="text-gray-600 text-lx">Cargando productos...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <p className="text-red-600 text-lx">Error: Contactese con el soporte técnico. {error}</p>
+      </div>
+    );
+  }
+    
 
   const categories = [
-    { name: "Fútbol", icon: "⚽", link: "/category/futbol" },
-    { name: "Basketball", icon: "🏀", link: "/category/basketball" },
-    { name: "Tenis", icon: "🎾", link: "/category/tenis" },
-    { name: "Baseball", icon: "⚾", link: "/category/baseball" },
-    { name: "Otros", icon: "🏆", link: "/category/otros" },
+    { slug: "futbol", name: "Fútbol", icon: "⚽", link: "/products/category/futbol" },
+    { slug: "basketball", name: "Basket ", icon: "🏀", link: "/products/category/basketball" },
+    { slug: "tenis", name: "Tenis", icon: "🎾", link: "/products/category/tenis" },
+    { slug: "baseball", name: "Baseball", icon: "⚾", link: "/products/category/baseball" },
+    { slug: "otros", name: "Otros", icon: "🏆", link: "/products/category/otros" },
   ];
 
   return (
@@ -102,7 +57,7 @@ export const Home = () => {
             doradas.
           </p>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Button variant="primary" size="large" className="px-6 py-3">
+            <Button variant="primary" size="large" className="px-6 py-3" onClick={() => navigate("/products")}>
               Explorar Productos
             </Button>
             <Button
@@ -155,7 +110,8 @@ export const Home = () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-      </section>
+        
+        </section>
 
       {/* Beneficios */}
       <section className="bg-white border-t border-gray-200">
@@ -164,7 +120,7 @@ export const Home = () => {
             <div className="text-4xl mb-3">🚚</div>
             <h4 className="font-semibold text-gray-900 mb-1">Envío gratis</h4>
             <p className="text-sm text-gray-600">
-              En compras superiores a $20.000
+              En compras superiores a $45.000
             </p>
           </div>
 

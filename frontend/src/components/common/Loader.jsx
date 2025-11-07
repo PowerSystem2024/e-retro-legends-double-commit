@@ -1,9 +1,10 @@
-import { Loader2 } from "lucide-react"
-
 export const Loader = () => {
-    return (
-        <div className="fixed top-0 left-0 backdrop-blur-md h-[100dvh]">
-            <Loader2 size={24} className="animate-spin" /> 
-        </div>
-    )
-}
+  return (
+    <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="text-center">
+        <div className="text-6xl mb-4 animate-spin">⏳</div>
+        <p className="text-gray-600">Cargando productos...</p>
+      </div>
+    </div>
+  );
+};

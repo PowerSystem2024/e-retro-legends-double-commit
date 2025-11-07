@@ -36,6 +36,9 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       setUser(null);
       setUserRole(null);
+      setIsLoading(false)
+    } finally {
+      setIsLoading(false)
     }
   }, []);
 
@@ -57,9 +60,13 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setUser(data.user);
-      await refreshUser()
+      setIsLoading(false)
+      await refreshUser();
     } catch (err) {
       setError(err);
+      setIsLoading(false)
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -83,6 +90,8 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       setError(err);
       setUser(null);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -107,6 +116,8 @@ export const AuthProvider = ({ children }) => {
     setError("");
   } catch (err) {
     setError(err);
+  } finally {
+    setIsLoading(false)
   }
 };
 
@@ -130,6 +141,6 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
-  const { isAuthenticated, userRole, user, error, login, logout, register } = context
-  return { isAuthenticated, userRole, user, error, login, logout, register } ;
+  const { isAuthenticated, userRole, user, error, login, logout, register, isLoading } = context
+  return { isAuthenticated, userRole, user, error, login, logout, register, isLoading } ;
 };

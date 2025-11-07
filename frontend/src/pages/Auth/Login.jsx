@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
+import { Loader2 } from "lucide-react";
 
 export const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
-  const { login } = useAuth();
+  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -94,7 +95,14 @@ export const Login = () => {
               size="large"
               className="w-full mb-4"
             >
-              Iniciar Sesión
+              {isLoading ? (
+                <span className="flex gap-1.5 items-center justify-center">
+                  <Loader2 size={20} className="animate-spin" />
+                  Inciando
+                </span>
+              ) : (
+                "Iniciar Sesión"
+              )}
             </Button>
 
             <div className="text-center">

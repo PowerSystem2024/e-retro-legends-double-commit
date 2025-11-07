@@ -107,7 +107,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
         {/* Cart */}
         <Link
           to="/cart"
-          className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2 hover:bg-gray-50 transition"
+          className="flex items-center gap-2 border border-gray-300 px-3 py-2 hover:bg-gray-50 transition"
         >
           <span className="text-2xl">
             <ShoppingCart size={24} />

@@ -30,7 +30,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
     return (
         <div className="min-h-screen bg-gray-50">
         {/* Hero */}
-        <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-16">
+        <section className="bg-gradient-to-br from-green-600/50 to-green-800/50 text-white py-16">
             <div className="max-w-7xl mx-auto px-4 text-center">
             <h1 className="text-5xl font-extrabold mb-4">
                 Centro de Ayuda
@@ -84,7 +84,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
             ].map((faq, i) => (
             <div
                 key={i}
-                className="bg-white border-2 border-gray-300 p-6 rounded-lg hover:shadow-lg transition"
+                className="bg-white border-2 border-gray-300 p-6 hover:shadow-lg transition"
             >
                 <h3 className="font-bold text-lg text-gray-900 mb-3">{faq.q}</h3>
                 <p className="text-gray-700">{faq.a}</p>

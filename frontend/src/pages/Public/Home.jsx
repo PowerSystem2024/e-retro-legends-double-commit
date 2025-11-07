@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ProductCard } from "../../components/common/ProductCard";
 import Button from "../../components/common/Button";
 import { useProducts } from "../../contexts/ProductContext";
+import { Loader } from "../../components/common/Loader";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -10,13 +11,7 @@ export const Home = () => {
 
   const featuredProducts = products.slice(0, 8);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <p className="text-gray-600 text-lx">Cargando productos...</p>
-      </div>
-    );
-  }
+  if (loading) return <Loader />
 
   if (error) {
     return (
@@ -82,7 +77,7 @@ export const Home = () => {
             <Link
               key={index}
               to={category.link}
-              className="bg-white border border-gray-200 rounded-md p-6 text-center shadow-sm hover:shadow-md hover:border-blue-400 transition"
+              className="bg-white border border-gray-200 p-6 text-center shadow-sm hover:shadow-md hover:border-blue-400 transition"
             >
               <div className="text-5xl mb-2">{category.icon}</div>
               <p className="font-medium text-gray-800">{category.name}</p>
@@ -116,7 +111,7 @@ export const Home = () => {
       {/* Beneficios */}
       <section className="bg-white border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-6 border border-gray-200 rounded-md shadow-sm">
+          <div className="text-center p-6 border border-gray-200 shadow-sm">
             <div className="text-4xl mb-3">🚚</div>
             <h4 className="font-semibold text-gray-900 mb-1">Envío gratis</h4>
             <p className="text-sm text-gray-600">
@@ -124,7 +119,7 @@ export const Home = () => {
             </p>
           </div>
 
-          <div className="text-center p-6 border border-gray-200 rounded-md shadow-sm">
+          <div className="text-center p-6 border border-gray-200 shadow-sm">
             <div className="text-4xl mb-3">✅</div>
             <h4 className="font-semibold text-gray-900 mb-1">
               Autenticidad garantizada
@@ -134,7 +129,7 @@ export const Home = () => {
             </p>
           </div>
 
-          <div className="text-center p-6 border border-gray-200 rounded-md shadow-sm">
+          <div className="text-center p-6 border border-gray-200 shadow-sm">
             <div className="text-4xl mb-3">🔒</div>
             <h4 className="font-semibold text-gray-900 mb-1">Compra segura</h4>
             <p className="text-sm text-gray-600">

@@ -27,7 +27,7 @@ export class EmailController {
       });
 
       const info = await transporter.sendMail({
-        from: `"doubleCommit taskApp" <${process.env.EMAIL_USER}>`,
+        from: `"doubleCommit e-Retro Legends" <${process.env.EMAIL_USER}>`,
         to: this.userEmail,
         subject: "Bienvenido a e-Retro Legends 🏆",
         html,

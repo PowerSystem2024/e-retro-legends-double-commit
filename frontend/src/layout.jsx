@@ -1,4 +1,6 @@
 import { useAuth } from "./contexts/AuthContext";
+import { Footer } from "./components/layout/Footer";
+import Header from "./components/layout/Header";
 
 /**
  * Componente Layout que envuelve la aplicación con Header y Footer

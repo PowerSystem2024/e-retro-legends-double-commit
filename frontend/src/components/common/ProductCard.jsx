@@ -1,6 +1,7 @@
 // import React, { use } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
+import { showDialog } from "./Dialog";
 
 export const ProductCard = ({ product }) => {
   const { addToCart, cartItems } = useCart();
@@ -32,13 +33,12 @@ export const ProductCard = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     if (isSoldOut || cannotAddMore) {
-      // feedback simple; reemplaza por tu sistema de toasts si tienes uno
-      alert("No hay suficiente stock disponible");
+      showDialog({ content: <div className="p-3">No hay suficiente stock disponible</div> })
       return;
     }
     const ok = addToCart(product, 1);
     if (!ok) {
-      alert("No se pudo agregar: stock insuficiente");
+     showDialog({ content: <div className="p-3">No se pudo agregar no hay stock suficiente.</div> })
     }
   };
 

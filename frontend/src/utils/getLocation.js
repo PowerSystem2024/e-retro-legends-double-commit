@@ -6,7 +6,7 @@ export const getLocation = async () => {
     const location = await response.json();
     const { ip, city, country } = location;
     const timeZone = country.timeZone;
-    const state = timeZone.replace(/^([^/]+\/){2}/, "") || city;
+    const state = timeZone.replace(/^([^/]+\/){2}/, "") || null;
 
     return { ip, city: city.name, country: country.name, state };
   } catch (error) {

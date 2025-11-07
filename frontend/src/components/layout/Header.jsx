@@ -35,7 +35,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
           <div className="flex gap-4 items-center">
             {isAuthenticated ? (
               <div className="flex items-center gap-1.5">
-                <img src={user.avatar} width={20} height={20} />
+                <img src={user.avatar} width={18} height={18} />
                 <span className="font-medium">Hola! {user.name || ""} {user.lastname}</span>
                 {userRole === "seller" && (
                   <Link

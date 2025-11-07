@@ -14,7 +14,7 @@ export const Register = () => {
     role: "buyer", // Valor por defecto
   });
   const [errors, setErrors] = useState({});
-  const { register } = useAuth();
+  const { register, isLoading} = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -215,7 +215,12 @@ export const Register = () => {
               size="large"
               className="w-full mb-4"
             >
-              Crear Cuenta
+              {isLoading ? 
+                <span className="flex gap-1.5 items-center justify-center">
+                  <Loader2 size={20} className="animate-spin" />
+                  Creando
+                </span>
+              : "Crear Cuenta"}
             </Button>
 
             <div className="text-center">

@@ -7,6 +7,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { getCartItemsCount } = useCart();
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             <Link to="/about" className="hover:underline">
               Acerca de
             </Link>
-            <Link to="/help#contact" className="hover:underline">
+            <Link to="/help#bottom" className="hover:underline">
               Contacto
             </Link>
           </div>

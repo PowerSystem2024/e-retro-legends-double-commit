@@ -82,23 +82,27 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    try {
-      const response = await fetch(
-        "https://retrolegendsback.vercel.app/api/user/logout",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-      setUser(null);
-      await refreshUser()
-    } catch (err) {
-      setError(err);
-    }
-  };
+  try {
+    const response = await fetch(
+      "https://retrolegendsback.vercel.app/api/user/logout",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+    
+    // Limpiar todo localmente
+    setUser(null);
+    setIsAuthenticated(false);
+    setUserRole("");
+    setError("");
+  } catch (err) {
+    setError(err);
+  }
+};
 
   const value = {
     isAuthenticated,

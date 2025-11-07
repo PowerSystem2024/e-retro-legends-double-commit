@@ -47,7 +47,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
             <span className="mx-2 text-gray-400">/</span>
             <span className="text-gray-600">Ayuda</span>
             </nav>
-            
+
 
         {/* Preguntas Frecuentes */}
         <section id="faq" className="max-w-7xl mx-auto px-4 py-12">
@@ -308,7 +308,7 @@ useScrollToHash(window.innerWidth < 768 ? 60 : 100);
                     ></textarea>
                 </div>
 
-                <div className="flex items-center justify-between gap-4">
+                <div id='bottom' className="flex items-center justify-between gap-4">
                     <Button type="submit" variant="primary">
                     Enviar mensaje
                     </Button>

@@ -88,7 +88,7 @@ export const CartProvider = ({ children }) => {
   // --- MÉTODOS DE CARRITO ---
   const addToCart = (product, quantity = 1) => {
     if (!product || !product.id) {
-      console.warn("addToCart: product inválido", product);
+      console.warn("addToCart: producto inválido", product);
       return false;
     }
 
@@ -183,11 +183,7 @@ export const CartProvider = ({ children }) => {
           body: JSON.stringify({
             user_id: user.user_id,
             total: getCartTotal(),
-            items: cartItems.map((item) => ({
-              name: item.name,
-              quantity: item.quantity,
-              price: item.price,
-            })),
+            items: cartItems
           }),
         }
       );

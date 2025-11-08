@@ -7,9 +7,7 @@ import Button from "../../components/common/Button";
 import { Wallet } from "@mercadopago/sdk-react";
 
 export const Checkout = () => {
-  const { cartItems, getCartTotal, clearCart, preferenceId, handlePayment, loadingPayment } =
-    useCart();
-  //const { isAuthenticated } = useAuth();
+  const { cartItems, getCartTotal, clearCart, handlePayment, loadingPayment } =  useCart();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -280,18 +278,11 @@ export const Checkout = () => {
                     Pago con Mercado Pago
                   </h2>
 
-                  {/* E */}
+                  {/* Aca se crea el brick que redirecciona a pagar */}
                   <div id="wallet_container" className="my-4">
                     <Button onClick={handlePayment} size="large" disabled={loadingPayment}>
-                      {loadingPayment ? "Procesando..." : "Ir al pago"}
+                      {loadingPayment ? "Procesando..." : "Procesar pago"}
                     </Button>
-                    {preferenceId ? (
-                      <Wallet
-                        initialization={{ preferenceId, redirectMode: "self" }}
-                      />
-                    ) : (
-                      <p>Generando preferencia...</p>
-                    )}
                   </div>
 
                   <div className="flex gap-4 mt-4">

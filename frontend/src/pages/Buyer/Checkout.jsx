@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
-//import { useAuth } from '../../contexts/AuthContext';
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
-import { Wallet } from "@mercadopago/sdk-react";
+import { Loader2 } from "lucide-react"
 
 export const Checkout = () => {
   const { cartItems, getCartTotal, clearCart, handlePayment, loadingPayment } =  useCart();
@@ -278,10 +277,14 @@ export const Checkout = () => {
                     Pago con Mercado Pago
                   </h2>
 
-                  {/* Aca se crea el brick que redirecciona a pagar */}
+                  {/* Aca se crea el brick que redirecciona a pagar evitando el uso de Wallet */}
                   <div id="wallet_container" className="my-4">
-                    <Button onClick={handlePayment} size="large" disabled={loadingPayment}>
-                      {loadingPayment ? "Procesando..." : "Procesar pago"}
+                    <Button onClick={handlePayment} size="large" className="w-full" disabled={loadingPayment}>
+                    {loadingPayment ? 
+                      <span className="flex gap-1.5 items-center justify-center">
+                        <Loader2 className="animate-spin"  /> Procesando..
+                      </span>
+                     : "Procesar pago"}
                     </Button>
                   </div>
 

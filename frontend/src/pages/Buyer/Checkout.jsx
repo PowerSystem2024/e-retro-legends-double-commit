@@ -1,31 +1,33 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../contexts/CartContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../contexts/CartContext";
 //import { useAuth } from '../../contexts/AuthContext';
-import Input from '../../components/common/Input';
-import Button from '../../components/common/Button';
+import Input from "../../components/common/Input";
+import Button from "../../components/common/Button";
+import { Wallet } from "@mercadopago/sdk-react";
 
 export const Checkout = () => {
-  const { cartItems, getCartTotal, clearCart } = useCart();
+  const { cartItems, getCartTotal, clearCart, preferenceId, handlePayment, loadingPayment } =
+    useCart();
   //const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     // Shipping Info
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: 'Argentina',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "Argentina",
     // Payment Info
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: ''
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -33,37 +35,37 @@ export const Checkout = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const validateShipping = () => {
     const newErrors = {};
-    if (!formData.firstName.trim()) newErrors.firstName = 'Requerido';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Requerido';
-    if (!formData.email.trim()) newErrors.email = 'Requerido';
-    if (!formData.phone.trim()) newErrors.phone = 'Requerido';
-    if (!formData.address.trim()) newErrors.address = 'Requerido';
-    if (!formData.city.trim()) newErrors.city = 'Requerido';
-    if (!formData.state.trim()) newErrors.state = 'Requerido';
-    if (!formData.zipCode.trim()) newErrors.zipCode = 'Requerido';
+    if (!formData.firstName.trim()) newErrors.firstName = "Requerido";
+    if (!formData.lastName.trim()) newErrors.lastName = "Requerido";
+    if (!formData.email.trim()) newErrors.email = "Requerido";
+    if (!formData.phone.trim()) newErrors.phone = "Requerido";
+    if (!formData.address.trim()) newErrors.address = "Requerido";
+    if (!formData.city.trim()) newErrors.city = "Requerido";
+    if (!formData.state.trim()) newErrors.state = "Requerido";
+    if (!formData.zipCode.trim()) newErrors.zipCode = "Requerido";
     return newErrors;
   };
 
   const validatePayment = () => {
     const newErrors = {};
-    if (!formData.cardNumber.trim()) newErrors.cardNumber = 'Requerido';
-    if (!formData.cardName.trim()) newErrors.cardName = 'Requerido';
-    if (!formData.expiryDate.trim()) newErrors.expiryDate = 'Requerido';
-    if (!formData.cvv.trim()) newErrors.cvv = 'Requerido';
+    if (!formData.cardNumber.trim()) newErrors.cardNumber = "Requerido";
+    if (!formData.cardName.trim()) newErrors.cardName = "Requerido";
+    if (!formData.expiryDate.trim()) newErrors.expiryDate = "Requerido";
+    if (!formData.cvv.trim()) newErrors.cvv = "Requerido";
     return newErrors;
   };
 
@@ -88,43 +90,83 @@ export const Checkout = () => {
   const handlePlaceOrder = () => {
     // Simulación de procesamiento de pedido
     clearCart();
-    navigate('/order-confirmation', { 
-      state: { 
+    navigate("/order-confirmation", {
+      state: {
         orderNumber: Math.floor(Math.random() * 1000000),
-        total: (getCartTotal() * 1.1).toFixed(2)
-      } 
+        total: (getCartTotal() * 1.1).toFixed(2),
+      },
     });
   };
 
   if (cartItems.length === 0) {
-    navigate('/cart');
+    navigate("/cart");
     return null;
   }
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-6xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-blue-900 mb-6">Finalizar Compra</h1>
+        <h1 className="text-3xl font-bold text-blue-900 mb-6">
+          Finalizar Compra
+        </h1>
 
         {/* Progress Steps */}
         <div className="bg-white border-2 border-gray-400 p-6 mb-6">
           <div className="flex justify-between items-center">
-            <div className={`flex-1 text-center ${step >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 mx-auto rounded-full border-2 ${step >= 1 ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-400'} flex items-center justify-center font-bold mb-2`}>
+            <div
+              className={`flex-1 text-center ${
+                step >= 1 ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <div
+                className={`w-10 h-10 mx-auto rounded-full border-2 ${
+                  step >= 1
+                    ? "bg-blue-600 border-blue-600 text-white"
+                    : "border-gray-400"
+                } flex items-center justify-center font-bold mb-2`}
+              >
                 1
               </div>
               <p className="text-sm font-bold">Envío</p>
             </div>
-            <div className={`flex-1 h-1 ${step >= 2 ? 'bg-blue-600' : 'bg-gray-400'}`}></div>
-            <div className={`flex-1 text-center ${step >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 mx-auto rounded-full border-2 ${step >= 2 ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-400'} flex items-center justify-center font-bold mb-2`}>
+            <div
+              className={`flex-1 h-1 ${
+                step >= 2 ? "bg-blue-600" : "bg-gray-400"
+              }`}
+            ></div>
+            <div
+              className={`flex-1 text-center ${
+                step >= 2 ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <div
+                className={`w-10 h-10 mx-auto rounded-full border-2 ${
+                  step >= 2
+                    ? "bg-blue-600 border-blue-600 text-white"
+                    : "border-gray-400"
+                } flex items-center justify-center font-bold mb-2`}
+              >
                 2
               </div>
               <p className="text-sm font-bold">Pago</p>
             </div>
-            <div className={`flex-1 h-1 ${step >= 3 ? 'bg-blue-600' : 'bg-gray-400'}`}></div>
-            <div className={`flex-1 text-center ${step >= 3 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 mx-auto rounded-full border-2 ${step >= 3 ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-400'} flex items-center justify-center font-bold mb-2`}>
+            <div
+              className={`flex-1 h-1 ${
+                step >= 3 ? "bg-blue-600" : "bg-gray-400"
+              }`}
+            ></div>
+            <div
+              className={`flex-1 text-center ${
+                step >= 3 ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <div
+                className={`w-10 h-10 mx-auto rounded-full border-2 ${
+                  step >= 3
+                    ? "bg-blue-600 border-blue-600 text-white"
+                    : "border-gray-400"
+                } flex items-center justify-center font-bold mb-2`}
+              >
                 3
               </div>
               <p className="text-sm font-bold">Revisar</p>
@@ -220,7 +262,12 @@ export const Checkout = () => {
                       disabled
                     />
                   </div>
-                  <Button variant="primary" size="large" onClick={handleNextStep} className="w-full mt-4">
+                  <Button
+                    variant="primary"
+                    size="large"
+                    onClick={handleNextStep}
+                    className="w-full mt-4"
+                  >
                     Continuar al Pago
                   </Button>
                 </div>
@@ -230,51 +277,31 @@ export const Checkout = () => {
               {step === 2 && (
                 <div>
                   <h2 className="text-xl font-bold text-blue-900 mb-4">
-                    Información de Pago
+                    Pago con Mercado Pago
                   </h2>
-                  <Input
-                    name="cardNumber"
-                    label="Número de Tarjeta"
-                    placeholder="1234 5678 9012 3456"
-                    value={formData.cardNumber}
-                    onChange={handleChange}
-                    error={errors.cardNumber}
-                    required
-                  />
-                  <Input
-                    name="cardName"
-                    label="Nombre en la Tarjeta"
-                    value={formData.cardName}
-                    onChange={handleChange}
-                    error={errors.cardName}
-                    required
-                  />
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      name="expiryDate"
-                      label="Fecha de Vencimiento"
-                      placeholder="MM/AA"
-                      value={formData.expiryDate}
-                      onChange={handleChange}
-                      error={errors.expiryDate}
-                      required
-                    />
-                    <Input
-                      name="cvv"
-                      label="CVV"
-                      placeholder="123"
-                      value={formData.cvv}
-                      onChange={handleChange}
-                      error={errors.cvv}
-                      required
-                    />
-                  </div>
-                  <div className="flex gap-4 mt-4">
-                    <Button variant="secondary" size="large" onClick={() => setStep(1)} className="flex-1">
-                      Volver
+
+                  {/* E */}
+                  <div id="wallet_container" className="my-4">
+                    <Button onClick={handlePayment} size="large" disabled={loadingPayment}>
+                      {loadingPayment ? "Procesando..." : "Ir al pago"}
                     </Button>
-                    <Button variant="primary" size="large" onClick={handleNextStep} className="flex-1">
-                      Revisar Pedido
+                    {preferenceId ? (
+                      <Wallet
+                        initialization={{ preferenceId, redirectMode: "self" }}
+                      />
+                    ) : (
+                      <p>Generando preferencia...</p>
+                    )}
+                  </div>
+
+                  <div className="flex gap-4 mt-4">
+                    <Button
+                      variant="secondary"
+                      size="large"
+                      onClick={() => setStep(1)}
+                      className="flex-1"
+                    >
+                      Volver
                     </Button>
                   </div>
                 </div>
@@ -290,9 +317,12 @@ export const Checkout = () => {
                     <div className="border-2 border-gray-300 p-4">
                       <h3 className="font-bold mb-2">Dirección de Envío</h3>
                       <p className="text-sm text-gray-700">
-                        {formData.firstName} {formData.lastName}<br />
-                        {formData.address}<br />
-                        {formData.city}, {formData.state} {formData.zipCode}<br />
+                        {formData.firstName} {formData.lastName}
+                        <br />
+                        {formData.address}
+                        <br />
+                        {formData.city}, {formData.state} {formData.zipCode}
+                        <br />
                         {formData.country}
                       </p>
                     </div>
@@ -304,10 +334,20 @@ export const Checkout = () => {
                     </div>
                   </div>
                   <div className="flex gap-4 mt-6">
-                    <Button variant="secondary" size="large" onClick={() => setStep(2)} className="flex-1">
+                    <Button
+                      variant="secondary"
+                      size="large"
+                      onClick={() => setStep(2)}
+                      className="flex-1"
+                    >
                       Volver
                     </Button>
-                    <Button variant="success" size="large" onClick={handlePlaceOrder} className="flex-1">
+                    <Button
+                      variant="success"
+                      size="large"
+                      onClick={handlePlaceOrder}
+                      className="flex-1"
+                    >
                       Confirmar Pedido
                     </Button>
                   </div>
@@ -319,21 +359,25 @@ export const Checkout = () => {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white border-2 border-gray-400 p-6 sticky top-4">
-              <h2 className="text-xl font-bold text-blue-900 mb-4">
-                Resumen
-              </h2>
+              <h2 className="text-xl font-bold text-blue-900 mb-4">Resumen</h2>
               <div className="space-y-2 mb-4">
-                {cartItems.map(item => (
+                {cartItems.map((item) => (
                   <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-gray-600">{item.name} x{item.quantity}</span>
-                    <span className="font-bold">${(item.price * item.quantity).toFixed(2)}</span>
+                    <span className="text-gray-600">
+                      {item.name} x{item.quantity}
+                    </span>
+                    <span className="font-bold">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
                   </div>
                 ))}
               </div>
               <div className="border-t-2 border-gray-300 pt-3 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal:</span>
-                  <span className="font-bold">${getCartTotal().toFixed(2)}</span>
+                  <span className="font-bold">
+                    ${getCartTotal().toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Envío:</span>
@@ -341,7 +385,9 @@ export const Checkout = () => {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Impuestos:</span>
-                  <span className="font-bold">${(getCartTotal() * 0.1).toFixed(2)}</span>
+                  <span className="font-bold">
+                    ${(getCartTotal() * 0.1).toFixed(2)}
+                  </span>
                 </div>
                 <div className="border-t-2 border-gray-400 pt-3">
                   <div className="flex justify-between">
@@ -359,4 +405,3 @@ export const Checkout = () => {
     </div>
   );
 };
-

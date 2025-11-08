@@ -1,12 +1,21 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { initMercadoPago } from "@mercadopago/sdk-react";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
-// helper: detecta campo de stock posible en product
-// eslint-disable-next-line react-refresh/only-export-components
+// helper: detecta el campo de stock posible en un producto
 export const getStockFromProduct = (p) => {
   if (!p) return null;
-  const keys = ["stock", "quantityAvailable", "inventory", "stockQty", "qty", "available"];
+  const keys = [
+    "stock",
+    "quantityAvailable",
+    "inventory",
+    "stockQty",
+    "qty",
+    "available",
+  ];
   for (const k of keys) {
     if (Object.prototype.hasOwnProperty.call(p, k)) {
       const v = p[k];
@@ -20,7 +29,7 @@ export const getStockFromProduct = (p) => {
   return null;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
+// Hook personalizado
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
@@ -34,6 +43,9 @@ export const useCart = () => {
     clearCart,
     getCartTotal,
     getCartItemsCount,
+    handlePayment,
+    loadingPayment,
+    preferenceId,
   } = context;
   return {
     cartItems,
@@ -43,27 +55,38 @@ export const useCart = () => {
     clearCart,
     getCartTotal,
     getCartItemsCount,
+    handlePayment,
+    loadingPayment,
+    preferenceId,
   };
 };
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const { user } = useAuth();
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [loadingPayment, setLoadingPayment] = useState(false);
 
+  // Cargamos el sdk de mercapago
   useEffect(() => {
-    // Cargar carrito desde localStorage
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
-    }
+    initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY, {
+      locale: "es-AR",
+    });
   }, []);
 
+  // Cargar carrito desde localStorage
   useEffect(() => {
-    // Guardar carrito en localStorage cuando cambie
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) setCartItems(JSON.parse(savedCart));
+  }, []);
+
+  // Guardar carrito en localStorage cuando cambie
+  useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // --- MÉTODOS DE CARRITO ---
   const addToCart = (product, quantity = 1) => {
-    // Protege contra llamadas sin product (evita el error product.id)
     if (!product || !product.id) {
       console.warn("addToCart: product inválido", product);
       return false;
@@ -75,14 +98,12 @@ export const CartProvider = ({ children }) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
       const existingQty = existingItem ? existingItem.quantity : 0;
 
-      // Si stock está definido, bloquea si supera
       if (typeof stock === "number" && existingQty + quantity > stock) {
         console.warn("addToCart: excede stock disponible", {
           productId: product.id,
           requested: existingQty + quantity,
           stock,
         });
-        // no modificar el estado
         return prevItems;
       }
 
@@ -97,14 +118,6 @@ export const CartProvider = ({ children }) => {
       return [...prevItems, { ...product, quantity }];
     });
 
-    // Devuelve true si la operación parece permitida (si stock definido,
-    // la comprobación anterior evitó la adición cuando excedía)
-    // Como setCartItems es asíncrono devolvemos true si no hay stock conflict
-    const existing = cartItems.find((it) => it.id === product.id);
-    const existingQtyNow = existing ? existing.quantity : 0;
-    if (typeof stock === "number" && existingQtyNow + quantity > stock) {
-      return false;
-    }
     return true;
   };
 
@@ -115,7 +128,6 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, quantity) => {
-    // si piden 0 o menos, eliminar
     if (quantity <= 0) {
       removeFromCart(productId);
       return true;
@@ -129,42 +141,88 @@ export const CartProvider = ({ children }) => {
 
       const stock = getStockFromProduct(item);
       if (typeof stock === "number" && quantity > stock) {
-        // no actualizar si excede stock
-        console.warn("updateQuantity: excede stock", { productId, requested: quantity, stock });
+        console.warn("updateQuantity: excede stock", {
+          productId,
+          requested: quantity,
+          stock,
+        });
         blocked = true;
         return prevItems;
       }
 
-      return prevItems.map((it) => (it.id === productId ? { ...it, quantity } : it));
+      return prevItems.map((it) =>
+        it.id === productId ? { ...it, quantity } : it
+      );
     });
 
     return !blocked;
   };
 
-  const clearCart = () => {
-    setCartItems([]);
+  const clearCart = () => setCartItems([]);
+
+  const getCartTotal = () =>
+    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  const getCartItemsCount = () =>
+    cartItems.reduce((count, item) => count + item.quantity, 0);
+
+  // --- PAGO CON MERCADO PAGO ---
+  const handlePayment = async () => {
+    if (!user) {
+      console.warn("Debe iniciar sesión para pagar.");
+      return;
+    }
+
+    setLoadingPayment(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_API_URL}/api/payment/create`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: user.user_id,
+            total: getCartTotal(),
+            items: cartItems.map((item) => ({
+              name: item.name,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.init_point) {
+        setPreferenceId(data.order_id);
+        window.open(data.init_point, "_blank");
+      } else {
+        console.error("No se recibió init_point del backend");
+      }
+    } catch (error) {
+      console.error("Error al crear preferencia:", error);
+    } finally {
+      setLoadingPayment(false);
+    }
   };
 
-  const getCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  };
-
-  const getCartItemsCount = () => {
-    return cartItems.reduce((count, item) => count + item.quantity, 0);
-  };
-
-  const value = {
-    cartItems,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getCartTotal,
-    getCartItemsCount,
-  };
-
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        getCartTotal,
+        getCartItemsCount,
+        handlePayment,
+        loadingPayment,
+        preferenceId,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };

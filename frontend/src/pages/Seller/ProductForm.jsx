@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
+import { useProducts } from '../../contexts/ProductContext';
 
 const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getProductById, products } = useProducts();
   const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState({
@@ -24,7 +26,42 @@ const ProductForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(isEditing);
 
+  useEffect(() => {
+  console.log('ProductForm - isEditing:', isEditing, 'id:', id, 'typeof id:', typeof id);
+  
+  if (isEditing && id) {
+    console.log('Buscando producto con id:', id);
+    console.log('products array:', products); 
+    const productId = Number(id)
+    console.log('Parsed productId:', productId, typeof productId);
+    const product = getProductById(productId);
+    console.log('Producto encontrado:', product);
+    
+    if (product) {
+      console.log('Rellenando formulario con:', product);
+      setFormData({
+        name: product.name || '',
+        description: product.description || '',
+        category: product.category || 'futbol',
+        price: product.price || '',
+        originalPrice: product.originalPrice || '',
+        stock: product.stock || '',
+        condition: product.condition || 'nuevo',
+        shipping: product.shipping || 'free',
+        brand: product.brand || '',
+        year: product.year || '',
+        size: product.size || '',
+        color: product.color || ''
+      });
+    } else {
+      console.log('Producto NO encontrado');
+    }
+    setLoading(false);
+  }
+  }, [id, isEditing, getProductById]);
+  
   const categories = [
     { value: 'futbol', label: 'Fútbol' },
     { value: 'basketball', label: 'Basketball' },
@@ -87,10 +124,25 @@ const ProductForm = () => {
       return;
     }
 
-    // Simulación de guardado - en producción esto haría una llamada al backend
-    console.log('Producto guardado:', formData);
+    // Aquí harías el POST o PUT al backend
+    if (isEditing) {
+      console.log('Producto actualizado:', { id, ...formData });
+      // PUT /api/products/:id
+    } else {
+      console.log('Producto creado:', formData);
+      // POST /api/products
+    }
+    
     navigate('/seller/products');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 py-8 flex items-center justify-center">
+        <p className="text-gray-600">Cargando producto...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -306,4 +358,3 @@ const ProductForm = () => {
 };
 
 export default ProductForm;
-

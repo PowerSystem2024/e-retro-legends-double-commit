@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { useCallback } from "react";
 import { getLocation } from "../utils/getLocation";
 
+const BACK_URL = import.meta.env.VITE_BACK_API_URL
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setIsLoading(true)
       const response = await fetch(
-        "https://retrolegendsback.vercel.app/api/user/profile",
+        `${BACK_URL}/api/user/profile`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -49,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   const login = async ({ email, password }) => {
     try {
       const response = await fetch(
-        "https://retrolegendsback.vercel.app/api/user/login",
+        `${BACK_URL}/api/user/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -73,20 +74,20 @@ export const AuthProvider = ({ children }) => {
   const register = async ({ name, lastName, email, password, role }) => {
     try {
       setIsLoading(true)
-      const { ip, city, state, country } = getLocation()
+      const { ip, city, country } = getLocation()
       const response = await fetch(
-        "https://retrolegendsback.vercel.app/api/user/signup",
+        `${BACK_URL}/api/user/signup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ name, lastName, email, password, role, ip, city, state, country }),
+          body: JSON.stringify({ name, lastName, email, password, role, ip, city, country }),
         }
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setIsLoading(false);
-      setUser(data.user);
+      setUser(data);
     } catch (err) {
       setError(err);
       setUser(null);
@@ -99,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   try {
     setIsLoading(true);
     const response = await fetch(
-      "https://retrolegendsback.vercel.app/api/user/logout",
+      `${BACK_URL}/api/user/logout`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

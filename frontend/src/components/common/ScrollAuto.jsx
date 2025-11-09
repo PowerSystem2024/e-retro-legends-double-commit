@@ -28,7 +28,9 @@ export default function useScrollToHash(offset = 80) {
             // Foco opcional
             try {
                 el.focus?.({ preventScroll: true });
-            } catch {}
+            } catch  (error) {
+            console.warn("No se pudo enfocar el elemento destino:", error);
+            }
             } else {
             // Si no hay id válido
             window.scrollTo({ top: 0, behavior: "smooth" });

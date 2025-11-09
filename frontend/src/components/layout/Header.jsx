@@ -17,7 +17,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   };
   
   return (
-    <header className="sticky top-0 left-0 right-0 z-100 border-b border-gray-200 bg-white shadow-sm">
+    <header className="w-full z-100 border-b border-gray-200 bg-white shadow-sm">
       {/* Top bar */}
       <div className="bg-gray-100 text-gray-700 text-xs">
         <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
@@ -97,7 +97,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar artículos, equipos o colecciones..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+            className="flex-1 px-4 py-2 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
           />
           <Button type="submit" variant="primary" className="px-4 py-2">
             Buscar

@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
-
+import { showDialog } from "../../components/common/Dialog";
+import { Loader2 } from "lucide-react";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ export const Register = () => {
     role: "buyer", // Valor por defecto
   });
   const [errors, setErrors] = useState({});
-  const { register, isLoading} = useAuth();
+  const { register, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -68,19 +69,29 @@ export const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    await register({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    });
-
-    navigate("/");
+  
+    try {
+      const data = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      
+      showDialog({ content: <div className="p-3">{data.message}</div> });
+      
+      setTimeout(() => navigate("/"), 1500);
+      
+    } catch (error) {
+      showDialog({ 
+        content: <div className="p-3">Error: {error.message}</div> 
+      });
+    }
   };
 
   return (
@@ -215,12 +226,14 @@ export const Register = () => {
               size="large"
               className="w-full mb-4"
             >
-              {isLoading ? 
+              {isLoading ? (
                 <span className="flex gap-1.5 items-center justify-center">
                   <Loader2 size={20} className="animate-spin" />
                   Creando
                 </span>
-              : "Crear Cuenta"}
+              ) : (
+                "Crear Cuenta"
+              )}
             </Button>
 
             <div className="text-center">

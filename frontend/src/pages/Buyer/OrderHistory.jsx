@@ -66,7 +66,7 @@ const OrderHistory = () => {
         <h1 className="text-3xl font-bold text-blue-900 mb-6">Mis Pedidos</h1>
 
         <div className="space-y-4">
-          {orders.sort((a, b) => b.created_at - a.created_at)
+          {orders.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
           .map((order) => (
             <div key={order.id} className="bg-white border-2 border-gray-400">
               {/* Order Header */}

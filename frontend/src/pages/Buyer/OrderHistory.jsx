@@ -1,50 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/common/Button';
+import { useOrder } from '../../contexts/OrderContext';
+import { formatDate } from '../../utils/formatDate';
 
 const OrderHistory = () => {
-  // Datos de ejemplo - en producción vendrían del backend
-  const orders = [
-    {
-      id: 1,
-      orderNumber: '789456',
-      date: '2025-10-15',
-      status: 'Entregado',
-      total: 249.99,
-      items: [
-        { name: 'Camiseta Retro Brasil 1970', quantity: 1, price: 89.99 },
-        { name: 'Jersey Chicago Bulls 1996', quantity: 1, price: 149.99 }
-      ]
-    },
-    {
-      id: 2,
-      orderNumber: '654321',
-      date: '2025-10-10',
-      status: 'En Tránsito',
-      total: 199.99,
-      items: [
-        { name: 'Raqueta Wilson Pro Staff 85', quantity: 1, price: 199.99 }
-      ]
-    },
-    {
-      id: 3,
-      orderNumber: '456789',
-      date: '2025-10-05',
-      status: 'Procesando',
-      total: 119.99,
-      items: [
-        { name: 'Camiseta Argentina 1986', quantity: 1, price: 119.99 }
-      ]
-    }
-  ];
-
+  const { orders } = useOrder()
+  
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Entregado':
+      case 'approved':
         return 'bg-green-100 border-green-400 text-green-800';
       case 'En Tránsito':
         return 'bg-blue-100 border-blue-400 text-blue-800';
-      case 'Procesando':
+      case 'pending':
         return 'bg-yellow-100 border-yellow-400 text-yellow-800';
       case 'Cancelado':
         return 'bg-red-100 border-red-400 text-red-800';
@@ -105,15 +74,15 @@ const OrderHistory = () => {
                   <div className="flex gap-6 text-sm">
                     <div>
                       <p className="text-gray-600">Pedido</p>
-                      <p className="font-bold">#{order.orderNumber}</p>
+                      <p className="font-bold">#{order.order_number}</p>
                     </div>
                     <div>
                       <p className="text-gray-600">Fecha</p>
-                      <p className="font-bold">{order.date}</p>
+                      <p className="font-bold">{formatDate(order.created_at)}</p>
                     </div>
                     <div>
                       <p className="text-gray-600">Total</p>
-                      <p className="font-bold text-green-700">${order.total.toFixed(2)}</p>
+                      <p className="font-bold text-green-700">${order.total}</p>
                     </div>
                   </div>
                   <div className={`px-4 py-2 border-2 font-bold text-sm ${getStatusColor(order.status)}`}>
@@ -131,11 +100,11 @@ const OrderHistory = () => {
                         <span className="text-2xl">📦</span>
                       </div>
                       <div>
-                        <p className="font-bold text-sm">{item.name}</p>
+                        <p className="font-bold text-sm">{item.product_name}</p>
                         <p className="text-xs text-gray-600">Cantidad: {item.quantity}</p>
                       </div>
                     </div>
-                    <p className="font-bold text-green-700">${item.price.toFixed(2)}</p>
+                    <p className="font-bold text-green-700">${item.price}</p>
                   </div>
                 ))}
               </div>

@@ -24,11 +24,11 @@ const OrderHistory = () => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'Entregado':
+      case 'approved':
         return '✅';
       case 'En Tránsito':
         return '🚚';
-      case 'Procesando':
+      case 'pending':
         return '⏳';
       case 'Cancelado':
         return '❌';
@@ -66,7 +66,8 @@ const OrderHistory = () => {
         <h1 className="text-3xl font-bold text-blue-900 mb-6">Mis Pedidos</h1>
 
         <div className="space-y-4">
-          {orders.map((order) => (
+          {orders.sort((a, b) => b.created_at - a.created_at)
+          .map((order) => (
             <div key={order.id} className="bg-white border-2 border-gray-400">
               {/* Order Header */}
               <div className="bg-gray-100 border-b-2 border-gray-400 p-4">

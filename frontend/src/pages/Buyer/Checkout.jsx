@@ -274,18 +274,21 @@ export const Checkout = () => {
               {step === 2 && (
                 <div>
                   <h2 className="text-xl font-bold text-blue-900 mb-4">
-                    Pago con Mercado Pago
+                    Pagar con Mercado Pago
                   </h2>
 
                   {/* Aca se crea el brick que redirecciona a pagar evitando el uso de Wallet */}
                   <div id="wallet_container" className="my-4">
-                    <Button onClick={handlePayment} size="large" className="w-full" disabled={loadingPayment}>
+                    <button onClick={handlePayment} className="w-full p-1 bg-yellow-300 border-2 border-zinc-600 cursor-pointer hover:border-blue-600" disabled={loadingPayment}>
                     {loadingPayment ? 
                       <span className="flex gap-1.5 items-center justify-center">
                         <Loader2 className="animate-spin"  /> Procesando..
                       </span>
-                     : "Procesar pago"}
-                    </Button>
+                     : <span className="flex gap-1.5 items-center justify-center font-semibold">
+                        Continuar con 
+                        <img src="/assets/Mercado_Pago_Logo.svg" width={120} height={50} />
+                     </span>}
+                    </button>
                   </div>
 
                   <div className="flex gap-4 mt-4">

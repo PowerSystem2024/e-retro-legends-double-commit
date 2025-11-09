@@ -97,7 +97,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar artículos, equipos o colecciones..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+            className="flex-1 px-4 py-2 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
           />
           <Button type="submit" variant="primary" className="px-4 py-2">
             Buscar

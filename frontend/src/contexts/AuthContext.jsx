@@ -74,20 +74,20 @@ export const AuthProvider = ({ children }) => {
   const register = async ({ name, lastName, email, password, role }) => {
     try {
       setIsLoading(true)
-      const { ip, city, state, country } = getLocation()
+      const { ip, city, country } = getLocation()
       const response = await fetch(
         `${BACK_URL}/api/user/signup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ name, lastName, email, password, role, ip, city, state, country }),
+          body: JSON.stringify({ name, lastName, email, password, role, ip, city, country }),
         }
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setIsLoading(false);
-      setUser(data.user);
+      setUser(data);
     } catch (err) {
       setError(err);
       setUser(null);

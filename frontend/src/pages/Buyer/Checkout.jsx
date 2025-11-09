@@ -281,7 +281,7 @@ export const Checkout = () => {
                   <div id="wallet_container" className="my-4">
                     <button onClick={handlePayment} className="w-full p-1 bg-yellow-300 border-2 border-zinc-600 cursor-pointer hover:border-blue-600 hover:brightness-105" disabled={loadingPayment}>
                     {loadingPayment ? 
-                      <span className="flex gap-1.5 items-center justify-center">
+                      <span className="flex gap-1.5 items-center justify-center p-2 font-semibold">
                         <Loader2 className="animate-spin"  /> Procesando..
                       </span>
                      : <span className="flex gap-1.5 items-center justify-center font-semibold">

@@ -69,19 +69,29 @@ export const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    const data = await register({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    });
-    showDialog({ content: <div className="p-3">{data.message}</div> });
-    setTimeout(() => navigate("/"), 900);
+  
+    try {
+      const data = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      
+      showDialog({ content: <div className="p-3">{data.message}</div> });
+      
+      setTimeout(() => navigate("/"), 1500);
+      
+    } catch (error) {
+      showDialog({ 
+        content: <div className="p-3">Error: {error.message}</div> 
+      });
+    }
   };
 
   return (

@@ -40,7 +40,7 @@ export const OrderProvider = ({ children }) => {
 
   useEffect(() => {
     refreshOrders();
-  }, [orders, refreshOrders]);
+  }, [refreshOrders]);
 
   const getOrderById = async () => {
     refreshOrders();

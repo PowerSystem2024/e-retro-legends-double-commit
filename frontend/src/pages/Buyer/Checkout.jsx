@@ -279,7 +279,7 @@ export const Checkout = () => {
 
                   {/* Aca se crea el brick que redirecciona a pagar evitando el uso de Wallet */}
                   <div id="wallet_container" className="my-4">
-                    <button onClick={handlePayment} className="w-full p-1 bg-yellow-300 border-2 border-zinc-600 cursor-pointer hover:border-blue-600" disabled={loadingPayment}>
+                    <button onClick={handlePayment} className="w-full p-1 bg-yellow-300 border-2 border-zinc-600 cursor-pointer hover:border-blue-600 hover:brightness-105" disabled={loadingPayment}>
                     {loadingPayment ? 
                       <span className="flex gap-1.5 items-center justify-center">
                         <Loader2 className="animate-spin"  /> Procesando..

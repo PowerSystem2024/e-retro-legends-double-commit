@@ -1,11 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { useOrder } from '../../contexts/OrderContext';
+import { Loader } from '../../components/common/Loader';
 
 export const OrderConfirmation = () => {
   const orderId = useParams()
-  const { getOrderById } = useOrder()
+  const { getOrderById, isLoading } = useOrder()
   const order = getOrderById(orderId)
+
+  if (isLoading) return <Loader />
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">

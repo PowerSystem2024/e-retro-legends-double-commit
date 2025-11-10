@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const { addToCart } = useCart();
   const { getProductById, loading } = useProducts();
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
+  // const [selectedImage, setSelectedImage] = useState(0); solo se usa si hay galería de imágenes
 
   const product = getProductById(id);
 
@@ -67,7 +67,8 @@ const ProductDetail = () => {
             <div className="w-full aspect-square bg-gray-200 border-2 border-gray-400 flex items-center justify-center">
               {product.image ? (
                 <img 
-                  src={Array.isArray(product.image) ? product.image[selectedImage] : product.image} 
+                  // src={Array.isArray(product.image) ? product.image[selectedImage] : product.image} 
+                  src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />
@@ -76,7 +77,8 @@ const ProductDetail = () => {
               )}
             </div>
             
-            {Array.isArray(product.images) && product.images.length > 1 && (
+            {/* si en la base de datos images es un array con varias imágenes */}
+            {/* {Array.isArray(product.images) && product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {product.images.map((img, index) => (
                   <button
@@ -92,7 +94,7 @@ const ProductDetail = () => {
                   </button>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
 
           {/* Información del producto */}

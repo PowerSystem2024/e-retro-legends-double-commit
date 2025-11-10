@@ -92,7 +92,7 @@ function App() {
                   path="/seller/dashboard"
                   element={
                     <ProtectedRoute allowedRole="seller">
-                      <SellerDashboard user={user} />
+                      <SellerDashboard />
                     </ProtectedRoute>
                   }
                 />

@@ -1,21 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/common/Button';
+import { useAuth } from '../../contexts/AuthContext';
+import { useOrder } from '../../contexts/OrderContext';
+import { formatDate } from '../../utils/formatDate';
 
-const SellerDashboard = ({ user }) => {
-  // Datos de ejemplo - en producción vendrían del backend
+const SellerDashboard = () => {
+  const { user } = useAuth()
+  const { orders: recentOrders } = useOrder()
+  // Datos de ejemplo
   const stats = {
     totalSales: 5420.50,
     pendingOrders: 8,
     activeListings: 24,
     totalProducts: 32
   };
-
-  const recentOrders = [
-    { id: 1, orderNumber: '789456', buyer: 'Juan Pérez', total: 149.99, status: 'Pendiente', date: '2025-10-17' },
-    { id: 2, orderNumber: '654321', buyer: 'María García', total: 89.99, status: 'Procesando', date: '2025-10-16' },
-    { id: 3, orderNumber: '456789', buyer: 'Carlos López', total: 199.99, status: 'Enviado', date: '2025-10-15' }
-  ];
+  console.log(recentOrders)
+  // const recentOrders = [
+  //   { id: 1, orderNumber: '789456', buyer: 'Juan Pérez', total: 149.99, status: 'Pendiente', date: '2025-10-17' },
+  //   { id: 2, orderNumber: '654321', buyer: 'María García', total: 89.99, status: 'Procesando', date: '2025-10-16' },
+  //   { id: 3, orderNumber: '456789', buyer: 'Carlos López', total: 199.99, status: 'Enviado', date: '2025-10-15' }
+  // ];
 
   const topProducts = [
     { id: 1, name: 'Camiseta Retro Brasil 1970', sales: 45, revenue: 4049.55 },
@@ -82,7 +87,7 @@ const SellerDashboard = ({ user }) => {
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-green-700">${order.total.toFixed(2)}</p>
-                      <p className="text-xs text-gray-500">{order.date}</p>
+                      <p className="text-xs text-gray-500">{formatDate(order.created_at)}</p>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">

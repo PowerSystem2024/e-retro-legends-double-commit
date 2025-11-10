@@ -22,7 +22,7 @@ export const OrderProvider = ({ children }) => {
       const response = await fetch(
         `${import.meta.env.VITE_BACK_API_URL}/api/user/orders/${user.user_id}`
       );
- 
+
       const orders = await response.json();
       if (!response.ok) {
         setError("Falló en el fetch de órdenes: " + response.statusText);
@@ -42,13 +42,35 @@ export const OrderProvider = ({ children }) => {
     refreshOrders();
   }, [refreshOrders]);
 
+  const getAllOrders = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_API_URL}/api/seller/orders`
+      );
+
+      const orders = await response.json();
+      if (!response.ok) {
+        setError("Falló en el fetch de órdenes: " + response.statusText);
+        return;
+      }
+      setIsLoading(false);
+      setOrders(orders);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const getOrderById = async (id) => {
-    return orders.find((order) => order.id === id)
+    return orders.find((order) => order.id === id);
   };
 
   return (
     <OrderContext.Provider
-      value={{ user, orders, error, isLoading, getOrderById }}
+      value={{ user, orders, error, isLoading, getOrderById, getAllOrders }}
     >
       {children}
     </OrderContext.Provider>

@@ -289,24 +289,6 @@ const ProductForm = () => {
                 error={errors.stock}
                 required
               />
-
-              <div className="mb-4">
-                <label className="block text-sm font-bold mb-2 text-gray-700">
-                  Envío
-                </label>
-                <select
-                  name="shipping"
-                  value={formData.shipping}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border-2 border-gray-400 focus:border-blue-600 focus:outline-none"
-                >
-                  <option value="free">Envío Gratis</option>
-                  <option value="5">$5.00</option>
-                  <option value="10">$10.00</option>
-                  <option value="15">$15.00</option>
-                  <option value="20">$20.00</option>
-                </select>
-              </div>
             </div>
           </div>
 

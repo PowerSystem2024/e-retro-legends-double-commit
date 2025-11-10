@@ -1,10 +1,14 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
+import { useOrder } from '../../contexts/OrderContext';
+import { Loader } from '../../components/common/Loader';
 
-const OrderConfirmation = () => {
-  const location = useLocation();
-  const { orderNumber, total } = location.state || { orderNumber: '000000', total: '0.00' };
+export const OrderConfirmation = () => {
+  const orderId = useParams()
+  const { getOrderById, isLoading } = useOrder()
+  const order = getOrderById(orderId)
+
+  if (isLoading) return <Loader />
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">
@@ -26,11 +30,11 @@ const OrderConfirmation = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600">Número de Pedido</p>
-                <p className="text-xl font-bold text-blue-900">#{orderNumber}</p>
+                <p className="text-xl font-bold text-blue-900">#{order.order_number}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Pagado</p>
-                <p className="text-xl font-bold text-green-700">${total}</p>
+                <p className="text-xl font-bold text-green-700">${order.total}</p>
               </div>
             </div>
           </div>
@@ -71,6 +75,4 @@ const OrderConfirmation = () => {
     </div>
   );
 };
-
-export default OrderConfirmation;
 

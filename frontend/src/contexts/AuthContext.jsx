@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useCallback } from "react";
 import { getLocation } from "../utils/getLocation";
+import { showDialog } from "../components/common/Dialog";
 
 const BACK_URL = import.meta.env.VITE_BACK_API_URL
 const AuthContext = createContext();
@@ -87,6 +88,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setIsLoading(false);
+      showDialog({content: <div>{data.message}</div>})
       setUser(data);
     } catch (err) {
       setError(err);

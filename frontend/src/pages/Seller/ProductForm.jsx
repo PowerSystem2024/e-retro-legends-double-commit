@@ -3,11 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import { useProducts } from '../../contexts/ProductContext';
+import { Loader } from '../../components/common/Loader';
 
 const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getProductById, products } = useProducts();
+  const { getProductById, products, createNewProduct, updateProduct } = useProducts();
   const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState({
@@ -28,19 +29,12 @@ const ProductForm = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(isEditing);
 
-  useEffect(() => {
-  console.log('ProductForm - isEditing:', isEditing, 'id:', id, 'typeof id:', typeof id);
-  
+  useEffect(() => {  
   if (isEditing && id) {
-    console.log('Buscando producto con id:', id);
-    console.log('products array:', products); 
     const productId = Number(id)
-    console.log('Parsed productId:', productId, typeof productId);
     const product = getProductById(productId);
-    console.log('Producto encontrado:', product);
     
     if (product) {
-      console.log('Rellenando formulario con:', product);
       setFormData({
         name: product.name || '',
         description: product.description || '',
@@ -60,7 +54,7 @@ const ProductForm = () => {
     }
     setLoading(false);
   }
-  }, [id, isEditing, getProductById]);
+  }, [products, id, isEditing, getProductById]);
   
   const categories = [
     { value: 'futbol', label: 'Fútbol' },
@@ -115,7 +109,7 @@ const ProductForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -124,25 +118,17 @@ const ProductForm = () => {
       return;
     }
 
-    // Aquí harías el POST o PUT al backend
+    // PUT al backend si se esta editando 🐶
     if (isEditing) {
-      console.log('Producto actualizado:', { id, ...formData });
-      // PUT /api/products/:id
+      await updateProduct(formData)
     } else {
-      console.log('Producto creado:', formData);
-      // POST /api/products
+      await createNewProduct(formData) // <- de lo contrario POST
     }
     
     navigate('/seller/products');
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-100 py-8 flex items-center justify-center">
-        <p className="text-gray-600">Cargando producto...</p>
-      </div>
-    );
-  }
+  if (loading) return <Loader />
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -321,7 +307,18 @@ const ProductForm = () => {
           {/* Image Upload Section */}
           <div className="bg-white border-2 border-gray-400 p-6 mb-6">
             <h2 className="text-xl font-bold text-blue-900 mb-4">Imágenes del Producto</h2>
-            <div className="border-4 border-dashed border-gray-400 p-12 text-center bg-gray-50">
+            <div 
+            id='file-container'
+            className="border-4 border-dashed border-gray-400 p-12 text-center bg-gray-50"
+            onMouseEnter={() => {
+              const container = document.getElementById("file-container")
+              if (container) container.style.borderColor = "orange"
+            }}
+            onMouseLeave={() => {
+              const container = document.getElementById("file-container")
+              if (container) container.style.borderColor = ""
+            }}
+            >
               <div className="text-5xl mb-4">📸</div>
               <p className="text-gray-600 mb-2">Arrastra imágenes aquí o haz clic para seleccionar</p>
               <p className="text-xs text-gray-500">Máximo 8 imágenes. Formatos: JPG, PNG</p>

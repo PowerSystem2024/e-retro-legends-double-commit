@@ -42,8 +42,8 @@ export const OrderProvider = ({ children }) => {
     refreshOrders();
   }, [refreshOrders]);
 
-  const getOrderById = async () => {
-    refreshOrders();
+  const getOrderById = async (id) => {
+    return orders.find((order) => order.id === id)
   };
 
   return (

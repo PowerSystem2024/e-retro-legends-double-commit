@@ -16,18 +16,16 @@ const ProductForm = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    description: "",
-    category: "futbol",
     price: "",
-    originalPrice: "",
     stock: "",
-    condition: "nuevo",
+    condition: "new",
     image: null,
-    shipping: "free",
+    description: "",
     brand: "",
     year: "",
     size: "",
     color: "",
+    category: "futbol",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(isEditing);
@@ -45,9 +43,8 @@ const ProductForm = () => {
           price: product.price || "",
           originalPrice: product.originalPrice || "",
           stock: product.stock || "",
-          condition: product.condition || "nuevo",
+          condition: product.condition || "new",
           image: product.image || null,
-          shipping: product.shipping || "free",
           brand: product.brand || "",
           year: product.year || "",
           size: product.size || "",
@@ -69,86 +66,94 @@ const ProductForm = () => {
   ];
 
   const conditions = [
-    { value: "nuevo", label: "Nuevo" },
-    { value: "usado-excelente", label: "Usado - Excelente" },
-    { value: "usado-muy-bueno", label: "Usado - Muy Bueno" },
-    { value: "usado-bueno", label: "Usado - Bueno" },
-    { value: "replica", label: "Réplica" },
-    { value: "coleccionable", label: "Coleccionable" },
+    { value: "new", label: "Nuevo" },
+    { value: "used", label: "Usado" },
   ];
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+  // Limpiar error del campo cuando empieza a escribir
+  if (errors[name]) {
+    setErrors((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: "",
     }));
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
-  };
-
-  const handleImageFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      showDialog({
-        content: (
-          <div className="p-5">
-            <p>Por favor selecciona un archivo de imagen válido.</p>
-          </div>
-        ),
-      });
-      return;
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      showDialog({
-        content: (
-          <div className="p-5">
-            <p>La imagen no debe superar los 10MB.</p>
-          </div>
-        ),
-      });
-      return;
-    }
-    setFormData(async(prev) => ({ ...prev, image: await converToDataBase64(file) }))
-  };
+  }
+};
+const handleImageFile = (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    showDialog({
+      content: (
+        <div className="p-5">
+          <p>Por favor selecciona un archivo de imagen válido.</p>
+        </div>
+      ),
+    });
+    return;
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    showDialog({
+      content: (
+        <div className="p-5">
+          <p>La imagen no debe superar los 10MB.</p>
+        </div>
+      ),
+    });
+    return;
+  }
+  
+  // Sin async aquí
+  converToDataBase64(file).then((base64) => {
+    setFormData((prev) => ({ ...prev, image: base64 }));
+  });
+};
 
   const validateForm = () => {
-    const newErrors = {};
+  const newErrors = {};
 
-    if (!formData.name?.trim()) {
-      newErrors.name = "El nombre del producto es requerido";
-    }
+  if (!formData.name || !formData.name.trim()) {
+    newErrors.name = "El nombre del producto es requerido";
+  }
 
-    if (!formData.description?.trim()) {
-      newErrors.description = "La descripción es requerida";
-    }
+  if (!formData.description || !formData.description.trim()) {
+    newErrors.description = "La descripción es requerida";
+  }
 
-    if (!formData.price || parseFloat(formData.price) <= 0) {
-      newErrors.price = "El precio debe ser mayor a 0";
-    }
+  if (!formData.price || Number(formData.price) <= 0) {
+    newErrors.price = "El precio debe ser mayor a 0";
+  }
 
-    if (!formData.stock || parseInt(formData.stock) < 0) {
-      newErrors.stock = "El stock debe ser 0 o mayor";
-    }
+  if (formData.stock === "" || Number(formData.stock) < 0) {
+    newErrors.stock = "El stock debe ser 1 o mayor";
+  }
 
-    return newErrors;
-  };
+  if (!formData.category) {
+    newErrors.category = "Debes seleccionar una categoría";
+  }
+
+  if (!formData.condition) {
+    newErrors.condition = "Debes seleccionar una condición";
+  }
+
+  return newErrors;
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newErrors = validateForm();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      // Hay errores de validación
+      setErrors(validationErrors);
       return;
     }
 
-    // PUT al backend si se esta editando 🐶
+    // PUT al backend si se está editando 🐶
     if (isEditing) {
       await updateProduct(formData);
     } else {
@@ -160,6 +165,7 @@ const ProductForm = () => {
 
   if (loading) return <Loader />;
 
+  console.log("formData:", formData);
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -258,27 +264,15 @@ const ProductForm = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <Input
-                type="number"
-                name="price"
-                label="Precio"
-                placeholder="0.00"
-                value={formData.price}
-                onChange={handleChange}
-                error={errors.price}
-                required
+              type="number"
+              name="price"
+              label="Precio"
+              placeholder="0.00"
+              value={formData.price}
+              onChange={handleChange}
+              error={errors.price}
+              required
               />
-
-              <Input
-                type="number"
-                name="originalPrice"
-                label="Precio Original (opcional)"
-                placeholder="0.00"
-                value={formData.originalPrice}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
               <Input
                 type="number"
                 name="stock"

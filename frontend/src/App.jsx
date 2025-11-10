@@ -26,7 +26,7 @@ import ComingSoonPage from "./pages/Public/404";
 // Páginas comprador
 import Cart from "./pages/Buyer/Cart";
 import { Checkout } from "./pages/Buyer/Checkout";
-import OrderConfirmation from "./pages/Buyer/OrderConfirmation";
+import { OrderConfirmation } from "./pages/Buyer/OrderConfirmation";
 import OrderHistory from "./pages/Buyer/OrderHistory";
 
 // Páginas vendedor
@@ -76,11 +76,7 @@ function App() {
                 />
                 <Route
                   path="/order-confirmation"
-                  element={
-                    <ProtectedRoute>
-                      <OrderConfirmation />
-                    </ProtectedRoute>
-                  }
+                  element={<OrderConfirmation />}
                 />
                 <Route
                   path="/buyer/orders"

@@ -4,12 +4,12 @@ import { useAuth } from "../contexts/AuthContext";
 /**
  * Componente para rutas protegidas
  * @param {React.ReactNode} children
- * @param {string} allowedRoute
+ * @param {string} allowedRoute roles permitidos 'buyer' o 'seller'
  * @returns {React.ReactNode}
  */
 export const ProtectedRoute = ({ children, allowedRole }) => {
   const { isAuthenticated, userRole } = useAuth();
-
+  
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

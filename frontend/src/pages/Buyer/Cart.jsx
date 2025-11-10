@@ -164,12 +164,6 @@ const Cart = () => {
                   <span className="text-gray-600">Envío:</span>
                   <span className="font-bold text-green-600">GRATIS</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Impuestos:</span>
-                  <span className="font-bold">
-                    ${(getCartTotal() * 0.1).toFixed(2)}
-                  </span>
-                </div>
                 <div className="border-t-2 border-gray-400 pt-3">
                   <div className="flex justify-between">
                     <span className="font-bold text-lg">Total:</span>

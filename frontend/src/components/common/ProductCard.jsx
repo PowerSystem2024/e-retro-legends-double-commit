@@ -9,7 +9,14 @@ export const ProductCard = ({ product }) => {
   // mismo helper local para detectar stock
   const getStockFromProduct = (p) => {
     if (!p) return null;
-    const keys = ["stock", "quantityAvailable", "inventory", "stockQty", "qty", "available"];
+    const keys = [
+      "stock",
+      "quantityAvailable",
+      "inventory",
+      "stockQty",
+      "qty",
+      "available",
+    ];
     for (const k of keys) {
       if (Object.prototype.hasOwnProperty.call(p, k)) {
         const v = p[k];
@@ -22,23 +29,39 @@ export const ProductCard = ({ product }) => {
     }
     return null;
   };
+  const priceNum = Number(product.price) || 0;
+  const shippingCost = (() => {
+    const s = product.shipping;
+    if (s == null) return null;
+    const n = Number(s);
+    if (!Number.isNaN(n)) return n;
+    if (typeof s === 'string' && /free|envio gratis|envíos gratis|envios gratis|gratis/i.test(s)) return 0;
+    return null;
+  })();
 
   const currentCartItem = cartItems.find((it) => it.id === product.id);
   const currentQty = currentCartItem ? currentCartItem.quantity : 0;
   const stock = getStockFromProduct(product);
   const isSoldOut = typeof stock === "number" && stock <= 0;
   const cannotAddMore = typeof stock === "number" && currentQty >= stock;
+  const isFreeShipping = shippingCost === 0 || priceNum > 45000;
 
   const handleAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (isSoldOut || cannotAddMore) {
-      showDialog({ content: <div className="p-3">No hay suficiente stock disponible</div> })
+      showDialog({
+        content: <div className="p-3">No hay suficiente stock disponible</div>,
+      });
       return;
     }
     const ok = addToCart(product, 1);
     if (!ok) {
-     showDialog({ content: <div className="p-3">No se pudo agregar no hay stock suficiente.</div> })
+      showDialog({
+        content: (
+          <div className="p-3">No se pudo agregar no hay stock suficiente.</div>
+        ),
+      });
     }
   };
 
@@ -72,15 +95,21 @@ export const ProductCard = ({ product }) => {
           </div>
           {product.shipping && (
             <p className="text-xs text-gray-600">
-              {product.shipping === "free"
-                ? "🚚 Envío gratis"
-                : `Envío: $${product.shipping}`}
+              {isFreeShipping ? (
+                <span className="text-green-600 font-semibold">
+                  ✓ Envío gratis
+                </span>
+              ) : (
+                <span>Envíos desde $5000</span>
+              )}
             </p>
           )}
           {product.condition && (
             <p className="text-xs text-gray-600 mt-1">
               Condición:{" "}
-              <span className="font-semibold">{product.condition === "new" ? "nuevo" : "usado"}</span>
+              <span className="font-semibold">
+                {product.condition === "new" ? "nuevo" : "usado"}
+              </span>
             </p>
           )}
         </div>
@@ -103,7 +132,11 @@ export const ProductCard = ({ product }) => {
               : `Agregar "${product.name}" al carrito`
           }
         >
-          {isSoldOut ? "Agotado" : cannotAddMore ? `Máximo (${stock})` : "Agregar al carrito"}
+          {isSoldOut
+            ? "Agotado"
+            : cannotAddMore
+            ? `Máximo (${stock})`
+            : "Agregar al carrito"}
         </button>
       </div>
     </div>

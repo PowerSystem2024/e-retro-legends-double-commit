@@ -1,117 +1,147 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Input from '../../components/common/Input';
-import Button from '../../components/common/Button';
-import { useProducts } from '../../contexts/ProductContext';
-import { Loader } from '../../components/common/Loader';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Input from "../../components/common/Input";
+import Button from "../../components/common/Button";
+import { useProducts } from "../../contexts/ProductContext";
+import { Loader } from "../../components/common/Loader";
+import { showDialog } from "../../components/common/Dialog";
+import { converToDataBase64 } from "../../utils/converToDataBase64";
 
 const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getProductById, products, createNewProduct, updateProduct } = useProducts();
+  const { getProductById, products, createNewProduct, updateProduct } =
+    useProducts();
   const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    category: 'futbol',
-    price: '',
-    originalPrice: '',
-    stock: '',
-    condition: 'nuevo',
-    shipping: 'free',
-    brand: '',
-    year: '',
-    size: '',
-    color: ''
+    name: "",
+    description: "",
+    category: "futbol",
+    price: "",
+    originalPrice: "",
+    stock: "",
+    condition: "nuevo",
+    image: null,
+    shipping: "free",
+    brand: "",
+    year: "",
+    size: "",
+    color: "",
   });
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(isEditing);
 
-  useEffect(() => {  
-  if (isEditing && id) {
-    const productId = Number(id)
-    const product = getProductById(productId);
-    
-    if (product) {
-      setFormData({
-        name: product.name || '',
-        description: product.description || '',
-        category: product.category || 'futbol',
-        price: product.price || '',
-        originalPrice: product.originalPrice || '',
-        stock: product.stock || '',
-        condition: product.condition || 'nuevo',
-        shipping: product.shipping || 'free',
-        brand: product.brand || '',
-        year: product.year || '',
-        size: product.size || '',
-        color: product.color || ''
-      });
-    } else {
-      console.log('Producto NO encontrado');
+  useEffect(() => {
+    if (isEditing && id) {
+      const productId = Number(id);
+      const product = getProductById(productId);
+
+      if (product) {
+        setFormData({
+          name: product.name || "",
+          description: product.description || "",
+          category: product.category || "futbol",
+          price: product.price || "",
+          originalPrice: product.originalPrice || "",
+          stock: product.stock || "",
+          condition: product.condition || "nuevo",
+          image: product.image || null,
+          shipping: product.shipping || "free",
+          brand: product.brand || "",
+          year: product.year || "",
+          size: product.size || "",
+          color: product.color || "",
+        });
+      } else {
+        console.log("Producto NO encontrado");
+      }
+      setLoading(false);
     }
-    setLoading(false);
-  }
   }, [products, id, isEditing, getProductById]);
-  
+
   const categories = [
-    { value: 'futbol', label: 'Fútbol' },
-    { value: 'basketball', label: 'Basketball' },
-    { value: 'tenis', label: 'Tenis' },
-    { value: 'baseball', label: 'Baseball' },
-    { value: 'otros', label: 'Otros Deportes' }
+    { value: "futbol", label: "Fútbol" },
+    { value: "basketball", label: "Basketball" },
+    { value: "tenis", label: "Tenis" },
+    { value: "baseball", label: "Baseball" },
+    { value: "otros", label: "Otros Deportes" },
   ];
 
   const conditions = [
-    { value: 'nuevo', label: 'Nuevo' },
-    { value: 'usado-excelente', label: 'Usado - Excelente' },
-    { value: 'usado-muy-bueno', label: 'Usado - Muy Bueno' },
-    { value: 'usado-bueno', label: 'Usado - Bueno' },
-    { value: 'replica', label: 'Réplica' },
-    { value: 'coleccionable', label: 'Coleccionable' }
+    { value: "nuevo", label: "Nuevo" },
+    { value: "usado-excelente", label: "Usado - Excelente" },
+    { value: "usado-muy-bueno", label: "Usado - Muy Bueno" },
+    { value: "usado-bueno", label: "Usado - Bueno" },
+    { value: "replica", label: "Réplica" },
+    { value: "coleccionable", label: "Coleccionable" },
   ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
+  const handleImageFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      showDialog({
+        content: (
+          <div className="p-5">
+            <p>Por favor selecciona un archivo de imagen válido.</p>
+          </div>
+        ),
+      });
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      showDialog({
+        content: (
+          <div className="p-5">
+            <p>La imagen no debe superar los 10MB.</p>
+          </div>
+        ),
+      });
+      return;
+    }
+    setFormData(async(prev) => ({ ...prev, image: await converToDataBase64(file) }))
+  };
+
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!formData.name.trim()) {
-      newErrors.name = 'El nombre del producto es requerido';
+
+    if (!formData.name?.trim()) {
+      newErrors.name = "El nombre del producto es requerido";
     }
-    
-    if (!formData.description.trim()) {
-      newErrors.description = 'La descripción es requerida';
+
+    if (!formData.description?.trim()) {
+      newErrors.description = "La descripción es requerida";
     }
-    
+
     if (!formData.price || parseFloat(formData.price) <= 0) {
-      newErrors.price = 'El precio debe ser mayor a 0';
+      newErrors.price = "El precio debe ser mayor a 0";
     }
-    
+
     if (!formData.stock || parseInt(formData.stock) < 0) {
-      newErrors.stock = 'El stock debe ser 0 o mayor';
+      newErrors.stock = "El stock debe ser 0 o mayor";
     }
-    
+
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -120,15 +150,15 @@ const ProductForm = () => {
 
     // PUT al backend si se esta editando 🐶
     if (isEditing) {
-      await updateProduct(formData)
+      await updateProduct(formData);
     } else {
-      await createNewProduct(formData) // <- de lo contrario POST
+      await createNewProduct(formData); // <- de lo contrario POST
     }
-    
-    navigate('/seller/products');
+
+    navigate("/seller/products");
   };
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -136,17 +166,21 @@ const ProductForm = () => {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-blue-900">
-            {isEditing ? 'Editar Producto' : 'Nuevo Producto'}
+            {isEditing ? "Editar Producto" : "Nuevo Producto"}
           </h1>
           <p className="text-gray-600">
-            {isEditing ? 'Actualiza la información del producto' : 'Añade un nuevo producto a tu inventario'}
+            {isEditing
+              ? "Actualiza la información del producto"
+              : "Añade un nuevo producto a tu inventario"}
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="bg-white border-2 border-gray-400 p-6 mb-6">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Información Básica</h2>
-            
+            <h2 className="text-xl font-bold text-blue-900 mb-4">
+              Información Básica
+            </h2>
+
             <Input
               name="name"
               label="Nombre del Producto"
@@ -167,10 +201,14 @@ const ProductForm = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows="5"
-                className={`w-full px-3 py-2 border-2 border-gray-400 focus:border-blue-600 focus:outline-none transition-colors ${errors.description ? 'border-red-600' : ''}`}
+                className={`w-full px-3 py-2 border-2 border-gray-400 focus:border-blue-600 focus:outline-none transition-colors ${
+                  errors.description ? "border-red-600" : ""
+                }`}
               />
               {errors.description && (
-                <p className="text-red-600 text-xs mt-1">{errors.description}</p>
+                <p className="text-red-600 text-xs mt-1">
+                  {errors.description}
+                </p>
               )}
             </div>
 
@@ -185,8 +223,10 @@ const ProductForm = () => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border-2 border-gray-400 focus:border-blue-600 focus:outline-none"
                 >
-                  {categories.map(cat => (
-                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  {categories.map((cat) => (
+                    <option key={cat.value} value={cat.value}>
+                      {cat.label}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -201,8 +241,10 @@ const ProductForm = () => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border-2 border-gray-400 focus:border-blue-600 focus:outline-none"
                 >
-                  {conditions.map(cond => (
-                    <option key={cond.value} value={cond.value}>{cond.label}</option>
+                  {conditions.map((cond) => (
+                    <option key={cond.value} value={cond.value}>
+                      {cond.label}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -210,8 +252,10 @@ const ProductForm = () => {
           </div>
 
           <div className="bg-white border-2 border-gray-400 p-6 mb-6">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Precio e Inventario</h2>
-            
+            <h2 className="text-xl font-bold text-blue-900 mb-4">
+              Precio e Inventario
+            </h2>
+
             <div className="grid grid-cols-2 gap-4">
               <Input
                 type="number"
@@ -267,8 +311,10 @@ const ProductForm = () => {
           </div>
 
           <div className="bg-white border-2 border-gray-400 p-6 mb-6">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Detalles Adicionales</h2>
-            
+            <h2 className="text-xl font-bold text-blue-900 mb-4">
+              Detalles Adicionales
+            </h2>
+
             <div className="grid grid-cols-2 gap-4">
               <Input
                 name="brand"
@@ -306,35 +352,46 @@ const ProductForm = () => {
 
           {/* Image Upload Section */}
           <div className="bg-white border-2 border-gray-400 p-6 mb-6">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Imágenes del Producto</h2>
-            <div 
-            id='file-container'
-            className="border-4 border-dashed border-gray-400 p-12 text-center bg-gray-50"
-            onMouseEnter={() => {
-              const container = document.getElementById("file-container")
-              if (container) container.style.borderColor = "orange"
-            }}
-            onMouseLeave={() => {
-              const container = document.getElementById("file-container")
-              if (container) container.style.borderColor = ""
-            }}
+            <h2 className="text-xl font-bold text-blue-900 mb-4">
+              Imágenes del Producto
+            </h2>
+            <div
+              id="file-container"
+              className="border-4 border-dashed border-gray-400 p-12 text-center bg-gray-50"
+              onMouseEnter={() => {
+                const container = document.getElementById("file-container");
+                if (container) container.style.borderColor = "green";
+              }}
+              onMouseLeave={() => {
+                const container = document.getElementById("file-container");
+                container.style.borderColor = "";
+              }}
             >
               <div className="text-5xl mb-4">📸</div>
-              <p className="text-gray-600 mb-2">Arrastra imágenes aquí o haz clic para seleccionar</p>
-              <p className="text-xs text-gray-500">Máximo 8 imágenes. Formatos: JPG, PNG</p>
-              <Button variant="outline" size="medium" className="mt-4">
-                Seleccionar Imágenes
-              </Button>
+              <p className="text-gray-600 mb-2">
+                Arrastra imágenes aquí o haz clic para seleccionar
+              </p>
+              <p className="text-xs text-gray-500">
+                Máximo 8 imágenes. Formatos: JPG, PNG
+              </p>
+              <label className="mt-4 flex items-center justify-center mx-auto">
+                <span className="sr-only">Seleccionar Imagen</span>
+                <input
+                  type="file"
+                  onChange={handleImageFile}
+                  className="mt-2 flex w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  multiple
+                  accept="image/*"
+                />
+              </label>
             </div>
           </div>
-
-          {/* Actions */}
           <div className="flex gap-4">
             <Button
               type="button"
               variant="secondary"
               size="large"
-              onClick={() => navigate('/seller/products')}
+              onClick={() => navigate("/seller/products")}
               className="flex-1"
             >
               Cancelar
@@ -345,7 +402,7 @@ const ProductForm = () => {
               size="large"
               className="flex-1"
             >
-              {isEditing ? 'Actualizar Producto' : 'Publicar Producto'}
+              {isEditing ? "Actualizar Producto" : "Publicar Producto"}
             </Button>
           </div>
         </form>

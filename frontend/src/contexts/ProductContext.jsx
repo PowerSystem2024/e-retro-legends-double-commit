@@ -55,7 +55,7 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_API_URL}/product`,
+        `${import.meta.env.VITE_BACK_API_URL}/api/product`,
         {
           method: "POST",
           credentials: "include",
@@ -78,7 +78,7 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_API_URL}/product/${productId}`
+        `${import.meta.env.VITE_BACK_API_URL}/api/product/${productId}`
       );
       const product = await response.json();
 

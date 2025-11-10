@@ -163,6 +163,12 @@ dialog::backdrop {
   backdrop-filter: blur(3px);
 }
 
+@media (width <= 762px) {
+  dialog {
+    width: 100%;
+  }
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(-500%);

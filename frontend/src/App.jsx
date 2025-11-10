@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { CartProvider } from "./contexts/CartContext";
 
 // Páginas públicas
@@ -39,7 +39,6 @@ import { ProtectedRoute } from "./components/ProtectedRoutes";
 import { Layout } from "./layout";
 
 function App() {
-  const { user } = useAuth();
   return (
     <Router>
       <AuthProvider>

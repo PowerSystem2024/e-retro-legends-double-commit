@@ -107,7 +107,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar artículos, equipos o colecciones..."
-            className="flex-1 px-4 py-2 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none rounded-md"
+            className="flex-1 px-4 py-2 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
           />
           <Button type="submit" variant="primary" className="px-4 py-2">
             Buscar
@@ -117,7 +117,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
         {/* Cart */}
         <Link
           to="/cart"
-          className="hidden md:flex items-center gap-2 border border-gray-300 px-3 py-2 hover:bg-gray-50 transition rounded-md"
+          className="hidden md:flex items-center gap-2 border border-gray-300 px-3 py-2 hover:bg-gray-50 transition"
         >
           <ShoppingCart size={24} />
           <div className="text-left">
@@ -221,7 +221,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-2 hover:text-blue-600"
                   >
-                    🛒 Mis Compras
+                    <ShoppingCart size={18} /> Mis Compras
                   </Link>
                 )}
                 <button

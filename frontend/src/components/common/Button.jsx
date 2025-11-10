@@ -3,6 +3,7 @@ import React from 'react';
 const Button = ({ 
   children, 
   onClick, 
+  onChange,
   variant = 'primary', 
   size = 'medium', 
   type = 'button',
@@ -32,6 +33,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
+      onChange={onChange}
       className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${disabledStyles} ${className}`}
     >
       {children}

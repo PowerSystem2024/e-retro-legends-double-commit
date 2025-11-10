@@ -15,7 +15,7 @@ const ProductForm = () => {
   const { getProductById, products, createNewProduct, updateProduct } =
     useProducts();
   const isEditing = Boolean(id);
-
+  
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -35,9 +35,8 @@ const ProductForm = () => {
 
   useEffect(() => {
     if (isEditing && id) {
-      const productId = Number(id);
-      const product = getProductById(productId);
-
+      const product = getProductById(id);
+      
       if (product) {
         setFormData({
           name: product.name || "",
@@ -168,7 +167,6 @@ const handleImageFile = (e) => {
 
   if (loading) return <Loader />;
 
-  console.log("formData:", formData);
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-4xl mx-auto px-4">

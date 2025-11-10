@@ -79,6 +79,6 @@ export const OrderProvider = ({ children }) => {
 
 export const useOrder = () => {
   const context = useContext(OrderContext);
-  const { user, orders, error, isLoading, getOrderById } = context;
-  return { user, orders, error, isLoading, getOrderById };
+  const { user, orders, error, isLoading, getOrderById, getAllOrders } = context;
+  return { user, orders, error, isLoading, getOrderById, getAllOrders };
 };

@@ -5,11 +5,11 @@ import { useProducts } from '../../contexts/ProductContext';
 
 const ProductManagement = () => {
   // Datos de ejemplo - en producción vendrían del backend
-  const { deleteProdut, products } = useProducts()
+  const { deleteProduct, products } = useProducts()
   const [filter, setFilter] = useState('');
  
   const handleDelete = async (productId) => {
-    await deleteProdut(productId)
+    await deleteProduct(productId)
   };
 
   const filteredProducts = products?.filter(product => {

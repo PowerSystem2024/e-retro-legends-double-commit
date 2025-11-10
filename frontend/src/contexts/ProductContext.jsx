@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { showDialog } from "../components/common/Dialog";
 
 const ProductContext = createContext();
 
@@ -17,6 +18,7 @@ export const useProducts = () => {
     createNewProduct,
     updateProduct,
     getProductByUserId,
+    deleteProduct
   } = context;
   return {
     products,
@@ -27,6 +29,7 @@ export const useProducts = () => {
     createNewProduct,
     updateProduct,
     getProductByUserId,
+    deleteProduct
   };
 };
 
@@ -123,7 +126,7 @@ export const ProductProvider = ({ children }) => {
       const product = await response.json();
 
       if (!response.ok) throw new Error(product.message);
-
+      showDialog({ content: <div>{product.message}</div> })
       setProducts(product);
     } catch (error) {
       setError(error);
@@ -145,6 +148,7 @@ export const ProductProvider = ({ children }) => {
       const product = await response.json();
 
       if (!response.ok) throw new Error(product.message);
+      showDialog({ content: <div>{product.message}</div> })
 
       setProducts(product);
     } catch (error) {

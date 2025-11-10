@@ -6,7 +6,6 @@ import {
   ShoppingCart,
   Menu,
   X,
-  User,
   LogOut,
   Home,
   LayoutDashboard,
@@ -144,7 +143,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
       </div>
 
       {/* Categories bar */}
-      <nav className="bg-white border-t border-gray-200 overflow-hidden">
+      <nav className="bg-white border-t border-gray-200 overflow-hidden flex">
         <div
           className="max-w-4xl mx-auto flex gap-6 px-4 py-2 text-sm font-medium text-gray-700
                overflow-x-auto scrollbar-none whitespace-nowrap"

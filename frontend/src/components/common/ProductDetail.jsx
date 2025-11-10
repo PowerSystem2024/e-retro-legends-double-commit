@@ -80,9 +80,9 @@ const ProductDetail = () => {
           {/* Galería de imágenes */}
           <div className="space-y-4">
             <div className="w-full aspect-square bg-gray-200 border-2 border-gray-400 flex items-center justify-center">
-              {product.images ? (
+              {product.image ? (
                 <img 
-                  src={Array.isArray(product.images) ? product.images[selectedImage] : product.images} 
+                  src={Array.isArray(product.image) ? product.image[selectedImage] : product.image} 
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />

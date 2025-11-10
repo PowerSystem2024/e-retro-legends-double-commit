@@ -29,6 +29,7 @@ export const ProductCard = ({ product }) => {
     }
     return null;
   };
+  
   const priceNum = Number(product.price) || 0;
   const shippingCost = (() => {
     const s = product.shipping;
@@ -69,9 +70,9 @@ export const ProductCard = ({ product }) => {
     <div className="border-2 border-gray-400 bg-white hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-between">
       <Link to={`/product/${product.id}`} className="flex-1 block">
         <div className="w-full aspect-square bg-gray-200 flex items-center justify-center overflow-hidden">
-          {product.images ? (
+          {product.image ? (
             <img
-              src={product.images[0]}
+              src={product.image}
               alt={product.name}
               className="w-full h-full object-cover"
             />

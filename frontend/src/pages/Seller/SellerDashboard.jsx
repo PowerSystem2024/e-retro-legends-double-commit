@@ -30,7 +30,7 @@ const SellerDashboard = ({ user }) => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-blue-900">Panel del Vendedor</h1>
-            <p className="text-gray-600">Bienvenido de vuelta, {user.name}</p>
+            <p className="text-gray-600">Bienvenido de vuelta, {user?.name || ""}</p>
           </div>
           <Link to="/seller/products/new">
             <Button variant="success" size="large">

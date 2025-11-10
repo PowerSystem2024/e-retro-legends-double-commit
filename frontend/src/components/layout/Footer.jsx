@@ -2,22 +2,27 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { ShoppingCart } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const Footer = () => {
   const { getCartItemsCount } = useCart();
+  const { user } = useAuth();
   return (
     <footer className="bg-gray-200 border-t-4 border-gray-400 mt-8 z-50">
-      <Link
-        to="/cart"
-        className="md:hidden fixed bottom-2 right-2 text-white items-center rounded-full border border-gray-300 p-3 bg-blue-600 transition"
-      >
-        <ShoppingCart size={20} />
-        <span
-        style={{ display: getCartItemsCount() <= 0 ? "none" : "flex" }}
-         className="px-1.5 absolute -top-2 right-0 text-sm font-semibold bg-red-400 cart rounded-full">
-          {getCartItemsCount()}
-        </span>
-      </Link>
+      {user?.role !== "seller" ? (
+        <Link
+          to="/cart"
+          className="md:hidden fixed bottom-2 right-2 text-white items-center rounded-full border border-gray-300 p-3 bg-blue-600 transition"
+        >
+          <ShoppingCart size={20} />
+          <span
+            style={{ display: getCartItemsCount() <= 0 ? "none" : "flex" }}
+            className="px-1.5 absolute -top-2 right-0 text-sm font-semibold bg-red-400 cart rounded-full"
+          >
+            {getCartItemsCount()}
+          </span>
+        </Link>
+      ) : null}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Acerca */}

@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import Button from "../common/Button";
-import { ShoppingCart } from "lucide-react"
+import { ShoppingCart } from "lucide-react";
 
 const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { getCartItemsCount } = useCart();
-  
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
-  
+
   return (
     <header className="w-full z-100 border-b border-gray-200 bg-white shadow-sm">
       {/* Top bar */}
@@ -35,8 +35,16 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
           <div className="flex gap-4 items-center">
             {isAuthenticated ? (
               <div className="flex items-center gap-1.5">
-                <img src={user.avatar} width={18} height={18} alt="Avatar del usuario" className="hidden md:flex" />
-                <span className="font-medium">{user.name || ""} {user.lastname}</span>
+                <img
+                  src={user.avatar}
+                  width={18}
+                  height={18}
+                  alt="Avatar del usuario"
+                  className="hidden md:flex"
+                />
+                <span className="font-medium">
+                  {user.name || ""} {user.lastname}
+                </span>
                 {userRole === "seller" && (
                   <Link
                     to="/seller/dashboard"
@@ -120,8 +128,11 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
       </div>
 
       {/* Categories bar */}
-      <nav className="bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap gap-6 text-sm font-medium text-gray-700">
+      <nav className="bg-white border-t border-gray-200 overflow-hidden">
+        <div
+          className="max-w-4xl mx-auto flex gap-6 px-4 py-2 text-sm font-medium text-gray-700
+               overflow-x-auto scrollbar-none whitespace-nowrap"
+        >
           <Link
             to="/products/category/futbol"
             className="hover:text-blue-600 transition-colors"

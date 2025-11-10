@@ -16,6 +16,7 @@ export const useProducts = () => {
     getProductById,
     createNewProduct,
     updateProduct,
+    getProductByUserId,
   } = context;
   return {
     products,
@@ -25,6 +26,7 @@ export const useProducts = () => {
     getProductById,
     createNewProduct,
     updateProduct,
+    getProductByUserId,
   };
 };
 
@@ -65,6 +67,28 @@ export const ProductProvider = ({ children }) => {
 
   const getProductById = (id) => {
     return products.find((product) => product.id === id);
+  };
+
+  const getProductByUserId = async (user_id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_API_URL}/api/product/${user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const product = await response.json();
+
+      if (!response.ok) throw new Error(product.message);
+
+      setProducts(product);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const createNewProduct = async (newProduct) => {
@@ -108,6 +132,28 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const deleteProduct = async (productId) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_API_URL}/api/product/${productId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      const product = await response.json();
+
+      if (!response.ok) throw new Error(product.message);
+
+      setProducts(product);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     products,
     loading,
@@ -116,6 +162,8 @@ export const ProductProvider = ({ children }) => {
     getProductById,
     createNewProduct,
     updateProduct,
+    deleteProduct,
+    getProductByUserId,
   };
 
   return (

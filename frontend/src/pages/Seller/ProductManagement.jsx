@@ -1,68 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/common/Button';
+import { useProducts } from '../../contexts/ProductContext';
 
 const ProductManagement = () => {
   // Datos de ejemplo - en producción vendrían del backend
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: 'Camiseta Retro Brasil 1970 - Pelé #10',
-      price: 89.99,
-      stock: 15,
-      status: 'Activo',
-      category: 'Fútbol',
-      views: 234,
-      sales: 45
-    },
-    {
-      id: 2,
-      name: 'Jersey Chicago Bulls 1996 - Jordan #23',
-      price: 149.99,
-      stock: 8,
-      status: 'Activo',
-      category: 'Basketball',
-      views: 456,
-      sales: 32
-    },
-    {
-      id: 3,
-      name: 'Raqueta Wilson Pro Staff 85',
-      price: 199.99,
-      stock: 0,
-      status: 'Sin Stock',
-      category: 'Tenis',
-      views: 189,
-      sales: 18
-    },
-    {
-      id: 4,
-      name: 'Camiseta Argentina 1986 - Maradona #10',
-      price: 119.99,
-      stock: 22,
-      status: 'Activo',
-      category: 'Fútbol',
-      views: 312,
-      sales: 28
-    }
-  ]);
-
-  const [filter, setFilter] = useState('all'); // all, active, inactive, out-of-stock
-
-  const handleDelete = (productId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-      setProducts(products.filter(p => p.id !== productId));
-    }
+  const { deleteProdut, products } = useProducts()
+  const [filter, setFilter] = useState('');
+ 
+  const handleDelete = async (productId) => {
+    await deleteProdut(productId)
   };
 
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = products?.filter(product => {
     if (filter === 'all') return true;
     if (filter === 'active') return product.status === 'Activo';
     if (filter === 'inactive') return product.status === 'Inactivo';
     if (filter === 'out-of-stock') return product.stock === 0;
     return true;
   });
-
+  
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-7xl mx-auto px-4">
@@ -87,28 +44,28 @@ const ProductManagement = () => {
               size="small"
               onClick={() => setFilter('all')}
             >
-              Todos ({products.length})
+              Todos ({products?.length})
             </Button>
             <Button
               variant={filter === 'active' ? 'primary' : 'outline'}
               size="small"
               onClick={() => setFilter('active')}
             >
-              Activos ({products.filter(p => p.status === 'Activo').length})
+              Activos ({products?.filter(p => p.status === 'Activo').length})
             </Button>
             <Button
               variant={filter === 'inactive' ? 'primary' : 'outline'}
               size="small"
               onClick={() => setFilter('inactive')}
             >
-              Inactivos ({products.filter(p => p.status === 'Inactivo').length})
+              Inactivos ({products?.filter(p => p.status === 'Inactivo').length})
             </Button>
             <Button
               variant={filter === 'out-of-stock' ? 'primary' : 'outline'}
               size="small"
               onClick={() => setFilter('out-of-stock')}
             >
-              Sin Stock ({products.filter(p => p.stock === 0).length})
+              Sin Stock ({products?.filter(p => p.stock === 0).length})
             </Button>
           </div>
         </div>
@@ -124,13 +81,11 @@ const ProductManagement = () => {
                   <th className="text-left p-4 font-bold">Precio</th>
                   <th className="text-left p-4 font-bold">Stock</th>
                   <th className="text-left p-4 font-bold">Estado</th>
-                  <th className="text-left p-4 font-bold">Vistas</th>
-                  <th className="text-left p-4 font-bold">Ventas</th>
                   <th className="text-left p-4 font-bold">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts.map((product) => (
+                {filteredProducts?.map((product) => (
                   <tr key={product.id} className="border-b-2 border-gray-200 hover:bg-gray-50">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
@@ -147,7 +102,7 @@ const ProductManagement = () => {
                       <span className="text-sm">{product.category}</span>
                     </td>
                     <td className="p-4">
-                      <span className="font-bold text-green-700">${product.price.toFixed(2)}</span>
+                      <span className="font-bold text-green-700">${product.price}</span>
                     </td>
                     <td className="p-4">
                       <span className={`font-bold ${product.stock === 0 ? 'text-red-600' : product.stock < 10 ? 'text-yellow-600' : 'text-green-600'}`}>
@@ -162,12 +117,6 @@ const ProductManagement = () => {
                       }`}>
                         {product.status}
                       </span>
-                    </td>
-                    <td className="p-4">
-                      <span className="text-sm">{product.views}</span>
-                    </td>
-                    <td className="p-4">
-                      <span className="text-sm font-bold">{product.sales}</span>
                     </td>
                     <td className="p-4">
                       <div className="flex gap-2">
@@ -191,7 +140,7 @@ const ProductManagement = () => {
             </table>
           </div>
 
-          {filteredProducts.length === 0 && (
+          {filteredProducts?.length === 0 && (
             <div className="p-12 text-center">
               <div className="text-4xl mb-4">📦</div>
               <p className="text-gray-600">No se encontraron productos con este filtro</p>

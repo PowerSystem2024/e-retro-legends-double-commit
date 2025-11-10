@@ -5,6 +5,7 @@ import Button from "../../components/common/Button";
 import { useProducts } from "../../contexts/ProductContext";
 import { Loader } from "../../components/common/Loader";
 import { showDialog } from "../../components/common/Dialog";
+import { converToDataBase64 } from "../../utils/converToDataBase64";
 
 const ProductForm = () => {
   const { id } = useParams();
@@ -113,17 +114,17 @@ const ProductForm = () => {
       });
       return;
     }
-    setFormData((prev) => ({ ...prev, image: file }))
+    setFormData(async(prev) => ({ ...prev, image: await converToDataBase64(file) }))
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
+    if (!formData.name?.trim()) {
       newErrors.name = "El nombre del producto es requerido";
     }
 
-    if (!formData.description.trim()) {
+    if (!formData.description?.trim()) {
       newErrors.description = "La descripción es requerida";
     }
 
@@ -380,6 +381,7 @@ const ProductForm = () => {
                   onChange={handleImageFile}
                   className="mt-2 flex w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   multiple
+                  accept="image/*"
                 />
               </label>
             </div>

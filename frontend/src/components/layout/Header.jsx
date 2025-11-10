@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import Button from "../common/Button";
-import { ShoppingCart, Menu, X, User, LogOut, Home, LayoutDashboard } from "lucide-react";
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  User,
+  LogOut,
+  Home,
+  LayoutDashboard,
+} from "lucide-react";
 
 const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -181,9 +189,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
             onClick={() => setIsMenuOpen(false)}
           ></div>
-          <aside
-            className="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 p-5 flex flex-col gap-4 animate-slide-left"
-          >
+          <aside className="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 p-5 flex flex-col gap-4 animate-slide-left">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Menú</h2>
               <button onClick={() => setIsMenuOpen(false)}>
@@ -194,7 +200,13 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
             {isAuthenticated ? (
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <User size={18} />
+                  <img
+                    src={user.avatar}
+                    width={18}
+                    height={18}
+                    alt="Avatar del usuario"
+                    className="rounded-full"
+                  />
                   <span className="font-medium">
                     {user.name} {user.lastname}
                   </span>

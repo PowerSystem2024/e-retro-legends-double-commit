@@ -6,6 +6,13 @@ import { formatDate } from '../../utils/formatDate';
 
 const OrderHistory = () => {
   const { orders } = useOrder()
+
+  const getStatus = (status) => {
+    if (status === "approved") return "En Tránsito"
+    if (status === "pending") return "Pendiente"
+    if (status === "rejeted") return "Rechazado"
+    return "Cancelado"
+  }
   
   const getStatusColor = (status) => {
     switch (status) {
@@ -29,9 +36,9 @@ const OrderHistory = () => {
       case 'En Tránsito':
         return '🚚';
       case 'pending':
-        return '⏳';
+        return '⏳ En Preparación';
       case 'Cancelado':
-        return '❌';
+        return '❌ Cancelado';
       default:
         return '📦';
     }
@@ -87,7 +94,7 @@ const OrderHistory = () => {
                     </div>
                   </div>
                   <div className={`px-4 py-2 border-2 font-bold text-sm ${getStatusColor(order.status)}`}>
-                    {getStatusIcon(order.status)} {order.status}
+                    {getStatusIcon(order.status)} {getStatus(order.status)}
                   </div>
                 </div>
               </div>

@@ -8,8 +8,24 @@ export const useProducts = () => {
   if (!context) {
     throw new Error("useProducts debe ser usado dentro de un ProductProvider");
   }
-  const { products, loading, error, fetchProducts, getProductById, createNewProduct, updateProduct } = context;
-  return { products, loading, error, fetchProducts, getProductById, createNewProduct, updateProduct };
+  const {
+    products,
+    loading,
+    error,
+    fetchProducts,
+    getProductById,
+    createNewProduct,
+    updateProduct,
+  } = context;
+  return {
+    products,
+    loading,
+    error,
+    fetchProducts,
+    getProductById,
+    createNewProduct,
+    updateProduct,
+  };
 };
 
 export const ProductProvider = ({ children }) => {

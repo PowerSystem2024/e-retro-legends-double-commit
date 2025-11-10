@@ -6,10 +6,12 @@ import { useProducts } from "../../contexts/ProductContext";
 import { Loader } from "../../components/common/Loader";
 import { showDialog } from "../../components/common/Dialog";
 import { converToDataBase64 } from "../../utils/converToDataBase64";
+import { useAuth } from "../../contexts/AuthContext"
 
 const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth()
   const { getProductById, products, createNewProduct, updateProduct } =
     useProducts();
   const isEditing = Boolean(id);
@@ -26,6 +28,7 @@ const ProductForm = () => {
     size: "",
     color: "",
     category: "futbol",
+    user_id: user.user_id
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(isEditing);

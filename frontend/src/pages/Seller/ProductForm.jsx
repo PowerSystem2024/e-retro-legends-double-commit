@@ -8,7 +8,7 @@ import { Loader } from '../../components/common/Loader';
 const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getProductById, products } = useProducts();
+  const { getProductById, products, createNewProduct, updateProduct } = useProducts();
   const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState({
@@ -109,7 +109,7 @@ const ProductForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -118,13 +118,11 @@ const ProductForm = () => {
       return;
     }
 
-    // POST o PUT al backend
+    // PUT al backend si se esta editando 🐶
     if (isEditing) {
-      console.log('Producto actualizado:', { id, ...formData });
-      // PUT /api/products/:id
+      await updateProduct(formData)
     } else {
-      console.log('Producto creado:', formData);
-      // POST /api/products
+      await createNewProduct(formData) // <- de lo contrario POST
     }
     
     navigate('/seller/products');

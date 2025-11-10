@@ -8,7 +8,8 @@ export const useProducts = () => {
   if (!context) {
     throw new Error("useProducts debe ser usado dentro de un ProductProvider");
   }
-  return context;
+  const { products, loading, error, fetchProducts, getProductById, createNewProduct, updateProduct } = context;
+  return { products, loading, error, fetchProducts, getProductById, createNewProduct, updateProduct };
 };
 
 export const ProductProvider = ({ children }) => {
@@ -50,20 +51,25 @@ export const ProductProvider = ({ children }) => {
     return products.find((product) => product.id === id);
   };
 
-  const createNewProduct = async () => {
+  const createNewProduct = async (newProduct) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_API_URL}/product`
+        `${import.meta.env.VITE_BACK_API_URL}/product`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(newProduct),
+        }
       );
       const product = await response.json();
 
       if (!response.ok) throw new Error(product.message);
 
-      setLoading(false);
       setProducts(product);
     } catch (error) {
       setError(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -78,10 +84,11 @@ export const ProductProvider = ({ children }) => {
 
       if (!response.ok) throw new Error(product.message);
 
-      setLoading(false);
       setProducts(product);
     } catch (error) {
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -37,21 +37,6 @@ const ProductDetail = () => {
     );
   }
 
-  // precio numeric
-  const priceNum = Number(product.price) || 0;
-
-  // detectar shipping numérico o strings que indiquen "gratis"
-  const shippingCost = (() => {
-    const s = product.shipping;
-    if (s == null) return null;
-    const n = Number(s);
-    if (!Number.isNaN(n)) return n;
-    if (typeof s === 'string' && /free|envio gratis|envíos gratis|envios gratis|gratis/i.test(s)) return 0;
-    return null;
-  })();
-
-  const isFreeShipping = shippingCost === 0 || priceNum > 45000;
-
   // stock seguro
   const stockValue = Number(product.stock) || 0;
 
@@ -124,21 +109,19 @@ const ProductDetail = () => {
             <div className="bg-white border-2 border-gray-400 p-6">
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="text-4xl font-bold text-green-700">
-                  ${priceNum.toFixed(2)}
+                  ${product.price}
                 </span>
                 {product.originalPrice && (
                   <>
                     <span className="text-xl text-gray-500 line-through">
                       ${Number(product.originalPrice).toFixed(2)}
                     </span>
-                    <span className="bg-red-500 text-white text-sm font-bold px-2 py-1">
-                      {Math.round((1 - priceNum / Number(product.originalPrice)) * 100)}% OFF
-                    </span>
+
                   </>
                 )}
               </div>
               <p className="text-sm text-gray-600">
-                {isFreeShipping ? (
+                {product.price > 45000 ? (
                   <span className="text-green-600 font-semibold">✓ Envío gratis</span>
                 ) : (
                   <span>Envíos desde $5000</span>

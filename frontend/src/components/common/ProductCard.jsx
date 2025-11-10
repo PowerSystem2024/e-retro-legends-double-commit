@@ -28,24 +28,13 @@ export const ProductCard = ({ product }) => {
       }
     }
     return null;
-  };
-  
-  const priceNum = Number(product.price) || 0;
-  const shippingCost = (() => {
-    const s = product.shipping;
-    if (s == null) return null;
-    const n = Number(s);
-    if (!Number.isNaN(n)) return n;
-    if (typeof s === 'string' && /free|envio gratis|envíos gratis|envios gratis|gratis/i.test(s)) return 0;
-    return null;
-  })();
+  }; 
 
   const currentCartItem = cartItems.find((it) => it.id === product.id);
   const currentQty = currentCartItem ? currentCartItem.quantity : 0;
   const stock = getStockFromProduct(product);
   const isSoldOut = typeof stock === "number" && stock <= 0;
   const cannotAddMore = typeof stock === "number" && currentQty >= stock;
-  const isFreeShipping = shippingCost === 0 || priceNum > 45000;
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -96,7 +85,7 @@ export const ProductCard = ({ product }) => {
           </div>
           {product.shipping && (
             <p className="text-xs text-gray-600">
-              {isFreeShipping ? (
+              {product.price > 45000 ? (
                 <span className="text-green-600 font-semibold">
                   ✓ Envío gratis
                 </span>

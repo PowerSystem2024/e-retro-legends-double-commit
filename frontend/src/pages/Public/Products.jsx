@@ -50,7 +50,7 @@ export const AllProducts = () => {
     { slug: "basketball", name: "Basketball", icon: "🏀" },
     { slug: "tenis", name: "Tenis", icon: "🎾" },
     { slug: "baseball", name: "Baseball", icon: "⚾" },
-    { slug: "otro", name: "Otro", icon: "🏆" },
+    { slug: "otros", name: "Otros", icon: "🏆" },
   ];
   
   const activeCategory = categories.find(

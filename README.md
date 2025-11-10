@@ -3,13 +3,33 @@
 Un e-commerce de coleccionables retro construido con PERN (PostgreSQL, Express, React, Node.js).
 
 Grupo: DoubleCommit
+Integrantes:
+
+- Cecilia Olejarczyk
+- Franco Morales
+- Gabriel Calcagni
 
 ## Descripción
 
 e-Retro Legends es una plataforma de comercio electrónico especializada en la compra y venta de artículos deportivos retro y coleccionables. Conecta a compradores y vendedores en un ecosistema seguro y fácil de usar, ofreciendo una experiencia robusta y moderna.
 La plataforma permite a los usuarios actuar como compradores (buyers) o vendedores (sellers), con funcionalidades específicas para cada rol.
 
-## Características
+## Características principales
+
+## Estilo Retro (eBay 2000s)
+
+Para lograr el estilo de eBay de los 2000s, se investigarán las características visuales de esa época:
+
+- **Paleta de colores:** Colores primarios, tonos grises, bordes definidos.
+- **Tipografía:** Fuentes sans-serif comunes de la época (Arial, Verdana, Tahoma).
+- **Bordes y Sombras:** Bordes pronunciados, sombras sutiles o difuminadas.
+- **Diseño:** Layouts basados en tablas (aunque se implementarán con flexbox/grid para modernidad), elementos con gradientes sutiles, iconos pixelados.
+
+## Páginas Principales
+
+- **Públicas:** Home, Listado de Productos, Detalle de Producto, Login, Register, Acerca de, Contacto.
+- **Comprador:** Carrito de Compras, Finalizar Compra (Checkout), Historial de Pedidos, Perfil.
+- **Vendedor:** Dashboard, Gestión de Productos (Añadir, Editar, Eliminar), Gestión de Pedidos, Perfil de Vendedor.
 
 ### Para Compradores
 
@@ -44,6 +64,10 @@ La plataforma permite a los usuarios actuar como compradores (buyers) o vendedor
 *   **React:** Biblioteca de JavaScript para construir la interfaz de usuario.
 *   **Node.js:** Entorno de ejecución de JavaScript para el backend.
 *   **Mercado Pago:** Plataforma de pagos para procesar transacciones de forma segura.
+*   **Tailwind CSS:** Framework CSS utility-first para estilos.
+*   **React Router:** Para la navegación entre páginas.
+*   **Context API:** Para gestión de estado global.
+*   **Axios/Fetch:** Para la comunicación con el backend (cuando se conecte).
 
 
 ## Autenticación y Seguridad

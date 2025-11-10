@@ -136,7 +136,7 @@ const Header = ({ isAuthenticated, user, userRole, onLogout }) => {
 
         {/* Mobile menu button */}
         <button
-          className="sm:hidden p-2 border rounded-md border-gray-300 hover:bg-gray-100"
+          className="sm:hidden p-2 border border-gray-300 hover:bg-gray-100"
           onClick={() => setIsMenuOpen(true)}
         >
           <Menu size={20} />

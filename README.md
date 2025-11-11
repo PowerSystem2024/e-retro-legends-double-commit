@@ -9,6 +9,10 @@ Integrantes:
 - Franco Morales
 - Gabriel Calcagni
 
+## Link al drive con el video demostrativo
+
+* **https://drive.google.com/drive/folders/1Axln-fyaAM2L-uT-8ejoLsbAzE-4iBIt?usp=sharing**
+
 ## Descripción
 
 e-Retro Legends es una plataforma de comercio electrónico especializada en la compra y venta de artículos deportivos retro y coleccionables. Conecta a compradores y vendedores en un ecosistema seguro y fácil de usar, ofreciendo una experiencia robusta y moderna.
